@@ -2,18 +2,21 @@ import { AccountCircle } from "@mui/icons-material";
 import {
   Box,
   Button,
-  Card,
   Paper,
-  Stack,
-  TextField,
   Typography,
 } from "@mui/material";
 import React from "react";
+import { useForm } from "react-hook-form";
+import CustomTextField from "../../components/CustomTextField";
 
 const Login = () => {
+  const { handleSubmit, control } = useForm();
+  const handleFormData = (data) => {
+    console.log(data);
+  };
   return (
     <Box
-      height="95vh"
+      height="97vh"
       display="flex"
       justifyContent="center"
       alignItems="center"
@@ -30,26 +33,35 @@ const Login = () => {
       >
         {/* <Typography>Login</Typography> */}
         {/* <Card sx={{ textAlign: "center" }}> */}
-        <Box sx={{ position: "absolute", top: {xs: "18%", md: ""}, left:{xs:"40%", md: "45%"} }} >
-          <AccountCircle sx={{ fontSize: "120px" }} color="warning"/>
+        <Box
+          sx={{
+            position: "absolute",
+            top: { xs: "18%", md: "" },
+            left: { xs: "40%", md: "45%" },
+          }}
+        >
+          <AccountCircle sx={{ fontSize: "120px" }} color="warning" />
         </Box>
-        <Box component="form" minWidth="300px" pt={7}>
-          {/* <Stack spacing={3}> */}
-          <TextField
-            fullWidth
+        <Box
+          onSubmit={handleSubmit(handleFormData)}
+          component="form"
+          minWidth="300px"
+          pt={7}
+        >
+            {/* Email field */}
+          <CustomTextField
+            name="email"
+            control={control}
             type="email"
-            variant="outlined"
             label="Email"
-            color="warning"
-            sx={{ marginBottom: "20px" }}
+            marginB="15px"
           />
-          <TextField
-            fullWidth
-            type="email"
-            variant="outlined"
+          {/* password field */}
+          <CustomTextField
+            name="password"
+            control={control}
+            type="password"
             label="Password"
-            color="warning"
-            //   sx={{ margin: "10px" }}
           />
           <Typography variant="body2">
             New at Alumni Insights? Please
@@ -58,14 +70,13 @@ const Login = () => {
             </Button>
           </Typography>
           <Button
-          type="submit"
+            type="submit"
             color="warning"
             variant="contained"
             sx={{ marginTop: "15px" }}
           >
             Login
           </Button>
-          {/* </Stack> */}
         </Box>
         {/* </Card> */}
       </Paper>
