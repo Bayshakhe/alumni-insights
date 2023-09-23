@@ -11,6 +11,7 @@ import {
   ListItemText,
   Backdrop,
   Typography,
+  Avatar,
 } from "@mui/material";
 import {
   EventAvailable,
@@ -41,9 +42,17 @@ const SideBar = () => {
     <Box
       sx={{ width: 250, height: "100vh" }}
       role="presentation"
-      bgcolor="#ed6c02"
+      bgcolor="#607d8b"
     >
       <List>
+        <Typography color="white" variant="h5" align="center" my={1}>
+          Alumni Insights
+        </Typography>
+        <Avatar
+          alt="Remy Sharp"
+          src="https://1fid.com/wp-content/uploads/2022/06/girl-profile-picture-1024x1024.jpg"
+          sx={{ width: 60, height: 60, margin: "15px auto" }}
+        />
         {studentRoute.map((element, index) => (
           <ListItem key={index} disablePadding>
             <Link to={element.path} style={{ textDecoration: "none" }}>

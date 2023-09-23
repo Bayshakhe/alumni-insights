@@ -20,7 +20,7 @@ const DashboardLayout = () => {
         </Stack>
       </Box>
       <Box sx={{ display: { xs: "block", md: "none" } }}>
-        <Button onClick={toggleSidebar}>{<Menu color="warning" />}</Button>
+        <Button onClick={toggleSidebar}>{<Menu color="primary" />}</Button>
         <Backdrop sx={{ color: "#fff" }} open={open} onClick={toggleSidebar}>
           <Drawer anchor="left" open={open} onClose={toggleSidebar}>
             <SideBar></SideBar>

@@ -97,7 +97,14 @@ const upcomingEvents = () => {
               </Typography>
             </CardContent>
             <CardActions>
-              <Button href="/payment" variant="contained" color="primary">
+              <Button
+                href="/payment"
+                variant="contained"
+                sx={{
+                  backgroundColor: "#78909c",
+                  "&:hover": { background: "#546e7a" },
+                }}
+              >
                 Book Ticket ({event.ticketPrice}tk)
               </Button>
             </CardActions>
