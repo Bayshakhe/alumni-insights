@@ -22,6 +22,7 @@ const Login = () => {
     const resData = await res?.json();
     // console.log(resData);
     if (resData.error) {
+      console.log(resData);
       setError(resData.error);
     } else {
       toast.success("WELCOME");

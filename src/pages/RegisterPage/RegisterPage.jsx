@@ -18,7 +18,7 @@ const RegisterPage = () => {
   } = useForm({ resolver: yupResolver(schema) });
   const navigate = useNavigate();
   const handleFormData = async (data) => {
-    const res = await fetch(`${baseUrl}/students`, {
+    const res = await fetch(`${baseUrl}/register`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",
@@ -31,6 +31,7 @@ const RegisterPage = () => {
       toast.success("Register successful.");
       navigate("/login");
     } else {
+      console.log(resData);
       toast("Already registered. Please Login.");
       navigate("/login");
     }

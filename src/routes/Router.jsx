@@ -2,6 +2,8 @@ import { createBrowserRouter } from "react-router-dom";
 import RegisterPage from "../pages/RegisterPage/RegisterPage";
 import DashboardLayout from "../pages/DashboardPage/DashboardLayout";
 import LoginPage from "../pages/LoginPage/LoginPage";
+import AllAlumni from "../pages/DashboardPage/AllAlumni";
+import UpcomingEvents from "../pages/DashboardPage/UpcomingEvents";
 
 const router = createBrowserRouter([
   {
@@ -10,11 +12,11 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/allAlumni",
-        element: <div>All Alumni</div>,
+        element: <AllAlumni />,
       },
       {
         path: "/upcomingEvents",
-        element: <div>upcomingEvents</div>,
+        element: <UpcomingEvents />,
       },
       {
         path: "/payment",
