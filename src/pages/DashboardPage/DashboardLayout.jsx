@@ -26,6 +26,7 @@ const DashboardLayout = () => {
             <SideBar></SideBar>
           </Drawer>
         </Backdrop>
+        {/* all outlet here */}
         <Outlet />
       </Box>
     </div>
