@@ -13,6 +13,7 @@ import {
 import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { usePostRegisterStudentMutation } from "../../redux/services/authServices";
 import CustomTextField from "../../components/CustomTextField";
 import schema from "../../helper/yupValidation";
 import { baseUrl } from "../../helper/baseUrl";
@@ -20,39 +21,33 @@ import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
 const RegisterPage = () => {
+  const [postRegisterStudent] = usePostRegisterStudentMutation();
   const [jobStatus, setJobStatus] = useState(false);
-
-  const handleJobStatus = (event) => {
-    setJobStatus(event.target.value);
-  };
-  // console.log({ jobStatus });
-
+  const navigate = useNavigate();
   const {
     handleSubmit,
     control,
     register,
     watch,
+    reset,
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
-  const navigate = useNavigate();
+
+  const handleJobStatus = (event) => {
+    setJobStatus(event.target.value);
+  };
+
   const handleFormData = async (data) => {
-    // console.log(data);
-    const res = await fetch(`${baseUrl}/register`, {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-    const resData = await res?.json();
-    // console.log(resData);
-    if (resData.acknowledged) {
+    const response = await postRegisterStudent(data);
+    // console.log(response);
+    if (response?.data?.acknowledged) {
       toast.success("Register successful.");
-      navigate("/login");
+      console.log(response.data);
+      // navigate("/login");
     } else {
-      console.log(resData);
       toast("Already registered. Please Login.");
-      navigate("/login");
+      console.log(response.data);
+      // navigate("/login");
     }
   };
   console.log(errors);

@@ -8,5 +8,18 @@ export const authServices = createApi({
     getStudents: builder.query({
       query: () => "/students",
     }),
+    postRegisterStudent: builder.mutation({
+      query: (postBody) => ({
+        url: "/register",
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: postBody,
+      }),
+    }),
   }),
 });
+
+export const { useGetStudentsQuery, usePostRegisterStudentMutation } =
+  authServices;
