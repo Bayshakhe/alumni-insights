@@ -14,6 +14,7 @@ import { ArrowOutward } from "@mui/icons-material";
 
 const allAlumni = () => {
   const [rows, setRows] = useState([]);
+
   useEffect(() => {
     fetch(`${baseUrl}/students`)
       .then((res) => res.json())

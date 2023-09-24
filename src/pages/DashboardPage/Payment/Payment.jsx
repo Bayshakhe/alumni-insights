@@ -6,9 +6,11 @@ import { loadStripe } from "@stripe/stripe-js";
 const Payment = () => {
   const stripePromise = loadStripe(import.meta.env.VITE_Payment_Geteway_PK);
   return (
-    <Elements stripe={stripePromise}>
-      <CheckoutForm />
-    </Elements>
+    <>
+      <Elements stripe={stripePromise}>
+        <CheckoutForm />
+      </Elements>
+    </>
   );
 };
 

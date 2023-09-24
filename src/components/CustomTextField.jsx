@@ -2,7 +2,14 @@ import { TextField, Typography } from "@mui/material";
 import React from "react";
 import { Controller } from "react-hook-form";
 
-const CustomTextField = ({ name, control, type, label, marginB }) => {
+const CustomTextField = ({
+  name,
+  control,
+  type,
+  label,
+  marginB,
+  jobStatus,
+}) => {
   return (
     <Controller
       name={name}
@@ -13,6 +20,7 @@ const CustomTextField = ({ name, control, type, label, marginB }) => {
             {...field}
             fullWidth
             type={type}
+            required={jobStatus}
             variant="outlined"
             label={label}
             color="warning"

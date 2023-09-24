@@ -12,7 +12,7 @@ const router = createBrowserRouter([
     element: <DashboardLayout />,
     children: [
       {
-        path: "/allAlumni",
+        path: "/",
         element: <AllAlumni />,
       },
       {

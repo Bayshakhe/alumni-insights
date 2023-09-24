@@ -1,7 +1,17 @@
 import { AccountCircle } from "@mui/icons-material";
-import { Box, Button, Grid, Paper, Typography } from "@mui/material";
-import React from "react";
-import { useForm } from "react-hook-form";
+import {
+  Box,
+  Button,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Paper,
+  Select,
+  TextField,
+  Typography,
+} from "@mui/material";
+import React, { useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import CustomTextField from "../../components/CustomTextField";
 import schema from "../../helper/yupValidation";
@@ -10,14 +20,23 @@ import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
 const RegisterPage = () => {
+  const [jobStatus, setJobStatus] = useState(false);
+
+  const handleJobStatus = (event) => {
+    setJobStatus(event.target.value);
+  };
+  // console.log({ jobStatus });
+
   const {
     handleSubmit,
     control,
+    register,
     watch,
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
   const navigate = useNavigate();
   const handleFormData = async (data) => {
+    // console.log(data);
     const res = await fetch(`${baseUrl}/register`, {
       method: "POST",
       headers: {
@@ -36,9 +55,10 @@ const RegisterPage = () => {
       navigate("/login");
     }
   };
+  console.log(errors);
   return (
     <Box
-      height="95vh"
+      minHeight="95vh"
       display="flex"
       justifyContent="center"
       alignItems="center"
@@ -46,38 +66,48 @@ const RegisterPage = () => {
     >
       <Paper
         sx={{
-          maxWidth: "500px",
+          maxWidth: "600px",
           height: "auto",
-          padding: "30px",
+          padding: "0 30px 30px",
           backgroundColor: "",
           boxShadow: "5px 5px 30px lightgray",
         }}
       >
-        {/* <Typography>Login</Typography> */}
-        {/* <Card sx={{ textAlign: "center" }}> */}
-        <Box
-          sx={{
-            position: "absolute",
-            top: { xs: "13%", md: "" },
-            left: { xs: "40%", md: "45%" },
-          }}
-        >
-          <AccountCircle sx={{ fontSize: "120px" }} color="warning" />
-        </Box>
         <Box
           onSubmit={handleSubmit(handleFormData)}
           component="form"
           minWidth="350px"
-          pt={7}
+          // pt={7}
         >
+          <Typography align="center" variant="h4" mt={5} mb={3}>
+            Register
+          </Typography>
           <Grid container spacing={2}>
-            {/* Name field */}
+            {/* First name field */}
             <Grid item xs={12} md={6}>
               <CustomTextField
-                name="name"
+                name="firstName"
                 control={control}
                 type="text"
-                label="Name"
+                label="First Name"
+              />
+            </Grid>
+            {/* Last name field */}
+            <Grid item xs={12} md={6}>
+              <CustomTextField
+                name="lastName"
+                control={control}
+                type="text"
+                label="Last Name"
+              />
+            </Grid>
+            {/* Current location field */}
+            <Grid item xs={12} md={6}>
+              <CustomTextField
+                name="currentLocation"
+                control={control}
+                type="text"
+                label="Current Location"
               />
             </Grid>
             {/* Phone no field */}
@@ -118,7 +148,7 @@ const RegisterPage = () => {
               />
             </Grid>
             {/* Photo field */}
-            <Grid item xs={12}>
+            <Grid item xs={12} md={6}>
               <CustomTextField
                 name="photo"
                 control={control}
@@ -126,13 +156,66 @@ const RegisterPage = () => {
                 label="Photo"
               />
             </Grid>
+            {/* job status select field */}
+            <Grid item xs={12} mt={2}>
+              {/* <InputLabel id="demo-simple-select-label">Job Status</InputLabel> */}
+              <Controller
+                name="jobStatus"
+                control={control}
+                render={({ field, fieldState: { error } }) => (
+                  <TextField
+                    {...field}
+                    {...register("jobStatus")}
+                    select
+                    value={jobStatus}
+                    label="Job Status"
+                    onChange={handleJobStatus}
+                    fullWidth
+                  >
+                    <MenuItem value={true}>Yes</MenuItem>
+                    <MenuItem value={false}>No</MenuItem>
+                  </TextField>
+                )}
+              />
+            </Grid>
+
+            {jobStatus && (
+              <>
+                {/* company name field */}
+                <Grid item xs={12} md={6}>
+                  <CustomTextField
+                    name="jobInfo.companyName"
+                    control={control}
+                    type="text"
+                    label="Company Name"
+                    jobStatus={jobStatus}
+                  />
+                </Grid>
+                {/* designation field */}
+                <Grid item xs={12} md={6}>
+                  <CustomTextField
+                    name="jobInfo.designation"
+                    control={control}
+                    type="text"
+                    label="Designation"
+                    jobStatus={jobStatus}
+                  />
+                </Grid>
+                {/* job location field */}
+                <Grid item xs={12} md={6}>
+                  <CustomTextField
+                    name="jobInfo.jobLocation"
+                    control={control}
+                    type="text"
+                    label="Job Location"
+                    jobStatus={jobStatus}
+                  />
+                </Grid>
+              </>
+            )}
           </Grid>
-          <Typography variant="body2">
-            Already have an account? Please
-            <Button href="/login" size="small" color="warning">
-              Login
-            </Button>
-          </Typography>
+
+          {/* submit button */}
           <Button
             type="submit"
             color="warning"
@@ -142,6 +225,14 @@ const RegisterPage = () => {
             Register
           </Button>
         </Box>
+
+        {/* path to login */}
+        <Typography variant="body2">
+          Already have an account? Please
+          <Button href="/login" size="small" color="warning">
+            Login
+          </Button>
+        </Typography>
         {/* </Card> */}
       </Paper>
     </Box>
