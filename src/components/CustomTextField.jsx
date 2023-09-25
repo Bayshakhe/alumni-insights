@@ -9,11 +9,13 @@ const CustomTextField = ({
   label,
   marginB,
   jobStatus,
+  defaultValues,
 }) => {
   return (
     <Controller
       name={name}
       control={control}
+      defaultValue={defaultValues || ""}
       render={({ field, fieldState: { error } }) => (
         <>
           <TextField

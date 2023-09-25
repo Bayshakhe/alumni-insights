@@ -25,7 +25,6 @@ import AdminRoute from "../routes/AdminRoute";
 const SideBar = () => {
   const loggedUser = useLoggedUser();
   const navigate = useNavigate();
-  // console.log(loggedUser);
 
   const handleLogOut = () => {
     localStorage.removeItem("id");
@@ -39,15 +38,25 @@ const SideBar = () => {
       bgcolor="#607d8b"
     >
       <List>
+        {/* title */}
         <Typography color="white" variant="h5" align="center" my={1}>
           Alumni Insights
         </Typography>
+
+        {/* user image */}
         <Avatar
           alt={loggedUser?.firstName}
           src={loggedUser?.photo}
           title={loggedUser?.firstName}
-          sx={{ width: 60, height: 60, margin: "15px auto" }}
+          sx={{ width: 60, height: 60, margin: "15px auto 5px" }}
         />
+
+        {/* user name */}
+        {loggedUser && (
+          <Typography color="white" variant="h5" align="center" mb={4}>
+            {loggedUser?.firstName}
+          </Typography>
+        )}
 
         {/* dynamically rendered routes by admin or students */}
         {loggedUser?.status ? <AdminRoute /> : <StudentRoute />}

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import {
   Avatar,
+  Button,
   IconButton,
   Table,
   TableBody,
@@ -12,6 +13,7 @@ import {
 import { ArrowOutward, Delete, Update } from "@mui/icons-material";
 import { baseUrl } from "../../../helper/baseUrl";
 import useLoggedUser from "../../../hooks/useLoggedUser";
+import UpdateStudent from "./UpdateStudent";
 
 const AllStudents = () => {
   const [rows, setRows] = useState([]);
@@ -21,7 +23,7 @@ const AllStudents = () => {
     const fetchData = async () => {
       const response = await fetch(`${baseUrl}/allStudents`);
       const data = await response.json();
-      console.log(data);
+      //   console.log(data);
       setRows(data);
     };
     fetchData();
@@ -75,8 +77,9 @@ const AllStudents = () => {
                 )}
                 <TableCell sx={{ display: "flex" }}>
                   <IconButton color="primary">
-                    <Update />
+                    <UpdateStudent id={row?._id} />
                   </IconButton>
+
                   <IconButton color="">
                     <Delete color="error" />
                   </IconButton>

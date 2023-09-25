@@ -21,7 +21,7 @@ const AllAlumni = () => {
     const fetchData = async () => {
       const response = await fetch(`${baseUrl}/alumniStudents`);
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
       setRows(data);
     };
     fetchData();
