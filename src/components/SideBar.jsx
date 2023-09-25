@@ -7,33 +7,31 @@ import {
   ListItemIcon,
   Typography,
   Avatar,
+  Divider,
 } from "@mui/material";
 import {
   EventAvailable,
   Group,
+  Login,
+  Logout,
   Payments,
   ReceiptLong,
 } from "@mui/icons-material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useLoggedUser from "../hooks/useLoggedUser";
+import StudentRoute from "../routes/StudentRoute";
+import AdminRoute from "../routes/AdminRoute";
 
 const SideBar = () => {
   const loggedUser = useLoggedUser();
-  console.log(loggedUser);
-  const studentRoute = [
-    { label: "All Alumni", path: "/", icon: <Group /> },
-    {
-      label: "Upcoming Events",
-      path: "/upcomingEvents",
-      icon: <EventAvailable />,
-    },
-    { label: "Payment", path: "/payment", icon: <Payments /> },
-    {
-      label: "Payment History",
-      path: "/paymentHistory",
-      icon: <ReceiptLong />,
-    },
-  ];
+  const navigate = useNavigate();
+  // console.log(loggedUser);
+
+  const handleLogOut = () => {
+    localStorage.removeItem("id");
+    navigate("/login");
+  };
+
   return (
     <Box
       sx={{ width: 250, height: "100vh" }}
@@ -50,18 +48,30 @@ const SideBar = () => {
           title={loggedUser?.firstName}
           sx={{ width: 60, height: 60, margin: "15px auto" }}
         />
-        {studentRoute.map((element, index) => (
-          <ListItem key={index} disablePadding>
-            <Link to={element.path} style={{ textDecoration: "none" }}>
+
+        {/* dynamically rendered routes by admin or students */}
+        {loggedUser?.status ? <AdminRoute /> : <StudentRoute />}
+
+        <Divider sx={{ marginY: "10px" }} />
+        <ListItem disablePadding>
+          {loggedUser ? (
+            <ListItemButton onClick={handleLogOut} sx={{ width: "250px" }}>
+              <ListItemIcon sx={{ color: "white" }}>
+                <Logout />
+              </ListItemIcon>
+              <Typography color="white">Log out</Typography>
+            </ListItemButton>
+          ) : (
+            <Link to="/login" style={{ textDecoration: "none" }}>
               <ListItemButton sx={{ width: "250px" }}>
                 <ListItemIcon sx={{ color: "white" }}>
-                  {element.icon}
+                  <Login />
                 </ListItemIcon>
-                <Typography color="white">{element.label}</Typography>
+                <Typography color="white">Log in</Typography>
               </ListItemButton>
             </Link>
-          </ListItem>
-        ))}
+          )}
+        </ListItem>
       </List>
     </Box>
   );

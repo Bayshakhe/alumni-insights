@@ -11,9 +11,11 @@ import {
 } from "@mui/material";
 import { baseUrl } from "../../helper/baseUrl";
 import { ArrowOutward } from "@mui/icons-material";
+import useLoggedUser from "../../hooks/useLoggedUser";
 
 const AllAlumni = () => {
   const [rows, setRows] = useState([]);
+  const loggedUser = useLoggedUser();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,8 +37,15 @@ const AllAlumni = () => {
             <TableRow>
               <TableCell>Image</TableCell>
               <TableCell>Name</TableCell>
-              <TableCell>Email</TableCell>
-              <TableCell>Phone</TableCell>
+              <TableCell>Company Name</TableCell>
+              <TableCell>Designation</TableCell>
+              <TableCell>Job Location</TableCell>
+              {loggedUser && (
+                <>
+                  <TableCell>Email</TableCell>
+                  <TableCell>Phone</TableCell>
+                </>
+              )}
               <TableCell>Details</TableCell>
             </TableRow>
           </TableHead>
@@ -53,8 +62,15 @@ const AllAlumni = () => {
                   {row.firstName + " "}
                   {row.lastName}
                 </TableCell>
-                <TableCell>{row.email}</TableCell>
-                <TableCell>{row.phone}</TableCell>
+                <TableCell>{row?.jobInfo?.companyName}</TableCell>
+                <TableCell>{row?.jobInfo?.designation}</TableCell>
+                <TableCell>{row?.jobInfo?.jobLocation}</TableCell>
+                {loggedUser && (
+                  <>
+                    <TableCell>{row.email}</TableCell>
+                    <TableCell>{row.phone}</TableCell>
+                  </>
+                )}
                 <TableCell>
                   <IconButton color="primary">
                     <ArrowOutward />
