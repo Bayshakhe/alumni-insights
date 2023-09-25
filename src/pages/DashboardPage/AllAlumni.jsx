@@ -12,13 +12,20 @@ import {
 import { baseUrl } from "../../helper/baseUrl";
 import { ArrowOutward } from "@mui/icons-material";
 
-const allAlumni = () => {
+const AllAlumni = () => {
   const [rows, setRows] = useState([]);
 
   useEffect(() => {
-    fetch(`${baseUrl}/students`)
-      .then((res) => res.json())
-      .then((data) => setRows(data));
+    const fetchData = async () => {
+      const response = await fetch(`${baseUrl}/alumniStudents`);
+      const data = await response.json();
+      console.log(data);
+      setRows(data);
+    };
+    fetchData();
+    // fetch(`${baseUrl}/students`)
+    //   .then((res) => res.json())
+    //   .then((data) => setRows(data));
   }, []);
   return (
     <div>
@@ -43,7 +50,8 @@ const allAlumni = () => {
                   <Avatar alt="Student image" src={row.photo} />
                 </TableCell>
                 <TableCell component="th" scope="row">
-                  {row.name}
+                  {row.firstName + " "}
+                  {row.lastName}
                 </TableCell>
                 <TableCell>{row.email}</TableCell>
                 <TableCell>{row.phone}</TableCell>
@@ -61,4 +69,4 @@ const allAlumni = () => {
   );
 };
 
-export default allAlumni;
+export default AllAlumni;

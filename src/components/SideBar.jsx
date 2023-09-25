@@ -1,31 +1,27 @@
 import React from "react";
 import {
   Box,
-  Button,
-  Divider,
-  Drawer,
   List,
   ListItem,
   ListItemButton,
   ListItemIcon,
-  ListItemText,
-  Backdrop,
   Typography,
   Avatar,
 } from "@mui/material";
 import {
   EventAvailable,
   Group,
-  InboxOutlined,
-  MailOutlined,
   Payments,
   ReceiptLong,
 } from "@mui/icons-material";
 import { Link } from "react-router-dom";
+import useLoggedUser from "../hooks/useLoggedUser";
 
 const SideBar = () => {
+  const loggedUser = useLoggedUser();
+  console.log(loggedUser);
   const studentRoute = [
-    { label: "All Alumni", path: "/allAlumni", icon: <Group /> },
+    { label: "All Alumni", path: "/", icon: <Group /> },
     {
       label: "Upcoming Events",
       path: "/upcomingEvents",
@@ -49,8 +45,9 @@ const SideBar = () => {
           Alumni Insights
         </Typography>
         <Avatar
-          alt="Remy Sharp"
-          src="https://1fid.com/wp-content/uploads/2022/06/girl-profile-picture-1024x1024.jpg"
+          alt={loggedUser?.firstName}
+          src={loggedUser?.photo}
+          title={loggedUser?.firstName}
           sx={{ width: 60, height: 60, margin: "15px auto" }}
         />
         {studentRoute.map((element, index) => (

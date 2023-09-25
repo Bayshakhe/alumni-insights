@@ -6,25 +6,21 @@ import CustomTextField from "../../components/CustomTextField";
 import { baseUrl } from "../../helper/baseUrl";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { usePostLoginStudentMutation } from "../../redux/services/authServices";
 
 const Login = () => {
   const { handleSubmit, control } = useForm();
+  const [postLoginStudent] = usePostLoginStudentMutation();
   const [error, setError] = useState("");
   const navigate = useNavigate();
+
   const handleFormData = async (data) => {
-    const res = await fetch(`${baseUrl}/login`, {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-    const resData = await res?.json();
-    // console.log(resData);
-    if (resData.error) {
-      console.log(resData);
-      setError(resData.error);
+    const response = await postLoginStudent(data);
+    console.log(response);
+    if (response?.data?.error) {
+      setError(response?.data?.error);
     } else {
+      localStorage.setItem("id", response?.data?._id);
       toast.success("WELCOME");
       setError("");
       navigate("/");

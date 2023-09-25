@@ -42,15 +42,15 @@ const RegisterPage = () => {
     // console.log(response);
     if (response?.data?.acknowledged) {
       toast.success("Register successful.");
-      console.log(response.data);
-      // navigate("/login");
+      // console.log(response.data);
+      navigate("/login");
     } else {
       toast("Already registered. Please Login.");
-      console.log(response.data);
-      // navigate("/login");
+      // console.log(response.data);
+      navigate("/login");
     }
   };
-  console.log(errors);
+  // console.log(errors);
   return (
     <Box
       minHeight="95vh"
