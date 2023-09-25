@@ -18,21 +18,17 @@ import { useNavigate } from "react-router-dom";
 import CustomTextField from "../../../components/CustomTextField";
 import { baseUrl } from "../../../helper/baseUrl";
 import { Update } from "@mui/icons-material";
+import { useUpdateStudentMutation } from "../../../redux/services/studentsService";
 
-const UpdateStudent = ({ id }) => {
+const UpdateStudent = ({ id, student }) => {
   const [jobStatus, setJobStatus] = useState(true);
   const navigate = useNavigate();
-  const [student, setStudent] = useState({});
   const [open, setOpen] = useState(false);
-
-  const defaultValues = {
-    firstName: student?.firstName,
-  };
+  const [updateStudent] = useUpdateStudentMutation();
 
   const handleClickOpen = () => {
     setOpen(true);
   };
-
   const handleClose = () => {
     setOpen(false);
   };
@@ -43,24 +39,16 @@ const UpdateStudent = ({ id }) => {
     watch,
     reset,
     formState: { errors },
-  } = useForm();
+  } = useForm({ defaultValues: student });
 
   const handleJobStatus = (event) => {
     setJobStatus(event.target.value);
   };
-  useEffect(() => {
-    const updateStudent = async () => {
-      const response = await fetch(`${baseUrl}/students/${id}`);
-      const data = await response.json();
-      setStudent(data);
-    };
-    updateStudent();
-  }, [id]);
-  console.log(defaultValues);
 
   const handleFormData = async (data) => {
-    // const response = await postRegisterStudent(data);
-    // // console.log(response);
+    // console.log(data);
+    const res = await updateStudent(data);
+    console.log(res);
     // if (response?.data?.acknowledged) {
     //   toast.success("Register successful.");
     //   // console.log(response.data);
@@ -91,7 +79,7 @@ const UpdateStudent = ({ id }) => {
             sx={{
               maxWidth: "600px",
               height: "auto",
-              padding: "0 30px 30px",
+              padding: "30px",
               backgroundColor: "",
               boxShadow: "5px 5px 30px lightgray",
             }}
@@ -108,7 +96,6 @@ const UpdateStudent = ({ id }) => {
                   <CustomTextField
                     name="firstName"
                     control={control}
-                    defaultValues={defaultValues?.firstName}
                     type="text"
                     label="First Name"
                   />

@@ -39,7 +39,7 @@ const RegisterPage = () => {
 
   const handleFormData = async (data) => {
     const response = await postRegisterStudent(data);
-    // console.log(response);
+    console.log(response);
     if (response?.data?.acknowledged) {
       toast.success("Register successful.");
       // console.log(response.data);

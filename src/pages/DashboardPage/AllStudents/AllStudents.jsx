@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import {
   Avatar,
-  Button,
   IconButton,
   Table,
   TableBody,
@@ -10,27 +9,31 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { ArrowOutward, Delete, Update } from "@mui/icons-material";
-import { baseUrl } from "../../../helper/baseUrl";
+import { Delete } from "@mui/icons-material";
 import useLoggedUser from "../../../hooks/useLoggedUser";
 import UpdateStudent from "./UpdateStudent";
+import {
+  useDeleteStudentMutation,
+  useGetAllStudentsQuery,
+} from "../../../redux/services/studentsService";
+import toast from "react-hot-toast";
 
 const AllStudents = () => {
-  const [rows, setRows] = useState([]);
   const loggedUser = useLoggedUser();
+  const { data, refetch } = useGetAllStudentsQuery();
+  const rows = data;
+  const [deleteStudent, { data: dD, isSuccess }] = useDeleteStudentMutation();
+  const handleDelete = (id) => {
+    deleteStudent(id);
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetch(`${baseUrl}/allStudents`);
-      const data = await response.json();
-      //   console.log(data);
-      setRows(data);
-    };
-    fetchData();
-    // fetch(`${baseUrl}/students`)
-    //   .then((res) => res.json())
-    //   .then((data) => setRows(data));
-  }, []);
+    if (isSuccess) {
+      toast.success("Successfully Deleted User.");
+      refetch();
+    }
+  }, [isSuccess]);
+
   return (
     <div>
       <TableContainer component="div">
@@ -77,10 +80,10 @@ const AllStudents = () => {
                 )}
                 <TableCell sx={{ display: "flex" }}>
                   <IconButton color="primary">
-                    <UpdateStudent id={row?._id} />
+                    <UpdateStudent id={row?._id} student={row} />
                   </IconButton>
 
-                  <IconButton color="">
+                  <IconButton onClick={() => handleDelete(row?._id)} color="">
                     <Delete color="error" />
                   </IconButton>
                 </TableCell>

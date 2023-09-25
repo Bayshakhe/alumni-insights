@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import {
   Avatar,
   IconButton,
@@ -9,26 +8,15 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { baseUrl } from "../../helper/baseUrl";
 import { ArrowOutward } from "@mui/icons-material";
 import useLoggedUser from "../../hooks/useLoggedUser";
+import { useGetAlumniStudentsQuery } from "../../redux/services/studentsService";
 
 const AllAlumni = () => {
-  const [rows, setRows] = useState([]);
   const loggedUser = useLoggedUser();
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetch(`${baseUrl}/alumniStudents`);
-      const data = await response.json();
-      // console.log(data);
-      setRows(data);
-    };
-    fetchData();
-    // fetch(`${baseUrl}/students`)
-    //   .then((res) => res.json())
-    //   .then((data) => setRows(data));
-  }, []);
+  const { data } = useGetAlumniStudentsQuery();
+  const rows = data;
+  console.log(rows);
   return (
     <div>
       <TableContainer component="div">

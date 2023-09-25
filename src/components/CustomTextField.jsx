@@ -15,7 +15,6 @@ const CustomTextField = ({
     <Controller
       name={name}
       control={control}
-      defaultValue={defaultValues || ""}
       render={({ field, fieldState: { error } }) => (
         <>
           <TextField
@@ -23,6 +22,7 @@ const CustomTextField = ({
             fullWidth
             type={type}
             required={jobStatus}
+            defaultValue={defaultValues || ""}
             variant="outlined"
             label={label}
             color="warning"
