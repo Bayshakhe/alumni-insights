@@ -9,17 +9,17 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { baseUrl } from "../../helper/baseUrl";
-import { ArrowOutward } from "@mui/icons-material";
-import useLoggedUser from "../../hooks/useLoggedUser";
+import { ArrowOutward, Delete, Update } from "@mui/icons-material";
+import { baseUrl } from "../../../helper/baseUrl";
+import useLoggedUser from "../../../hooks/useLoggedUser";
 
-const AllAlumni = () => {
+const AllStudents = () => {
   const [rows, setRows] = useState([]);
   const loggedUser = useLoggedUser();
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch(`${baseUrl}/alumniStudents`);
+      const response = await fetch(`${baseUrl}/allStudents`);
       const data = await response.json();
       console.log(data);
       setRows(data);
@@ -37,6 +37,7 @@ const AllAlumni = () => {
             <TableRow>
               <TableCell>Image</TableCell>
               <TableCell>Name</TableCell>
+              <TableCell>Status</TableCell>
               <TableCell>Company Name</TableCell>
               <TableCell>Designation</TableCell>
               <TableCell>Job Location</TableCell>
@@ -46,7 +47,7 @@ const AllAlumni = () => {
                   <TableCell>Phone</TableCell>
                 </>
               )}
-              <TableCell>Details</TableCell>
+              <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -62,18 +63,22 @@ const AllAlumni = () => {
                   {row.firstName + " "}
                   {row.lastName}
                 </TableCell>
-                <TableCell>{row?.jobInfo?.companyName}</TableCell>
-                <TableCell>{row?.jobInfo?.designation}</TableCell>
-                <TableCell>{row?.jobInfo?.jobLocation}</TableCell>
+                <TableCell>{row?.status ? "ADMIN" : "Student"}</TableCell>
+                <TableCell>{row?.jobInfo?.companyName || "N/A"}</TableCell>
+                <TableCell>{row?.jobInfo?.designation || "N/A"}</TableCell>
+                <TableCell>{row?.jobInfo?.jobLocation || "N/A"}</TableCell>
                 {loggedUser && (
                   <>
                     <TableCell>{row.email}</TableCell>
                     <TableCell>{row.phone}</TableCell>
                   </>
                 )}
-                <TableCell>
+                <TableCell sx={{ display: "flex" }}>
                   <IconButton color="primary">
-                    <ArrowOutward />
+                    <Update />
+                  </IconButton>
+                  <IconButton color="">
+                    <Delete color="error" />
                   </IconButton>
                 </TableCell>
               </TableRow>
@@ -85,4 +90,4 @@ const AllAlumni = () => {
   );
 };
 
-export default AllAlumni;
+export default AllStudents;

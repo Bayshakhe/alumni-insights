@@ -5,6 +5,7 @@ import AllAlumni from "../pages/DashboardPage/AllAlumni";
 import UpcomingEvents from "../pages/DashboardPage/UpcomingEvents";
 import Payment from "../pages/DashboardPage/Payment/Payment";
 import RegisterPage from "../pages/RegisterPage/RegisterPage";
+import AllStudents from "../pages/DashboardPage/AllStudents/AllStudents";
 
 const router = createBrowserRouter([
   {
@@ -17,7 +18,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/allStudents",
-        element: <div>all student for admin</div>,
+        element: <AllStudents />,
       },
       {
         path: "/upcomingEvents",
