@@ -9,14 +9,7 @@ import {
   Avatar,
   Divider,
 } from "@mui/material";
-import {
-  EventAvailable,
-  Group,
-  Login,
-  Logout,
-  Payments,
-  ReceiptLong,
-} from "@mui/icons-material";
+import { Home, Login, Logout } from "@mui/icons-material";
 import { Link, useNavigate } from "react-router-dom";
 import useLoggedUser from "../hooks/useLoggedUser";
 import StudentRoute from "../routes/StudentRoute";
@@ -35,7 +28,7 @@ const SideBar = () => {
     <Box
       sx={{ width: 250, height: "100vh" }}
       role="presentation"
-      bgcolor="#607d8b"
+      bgcolor="#309576"
     >
       <List>
         {/* title */}
@@ -62,6 +55,20 @@ const SideBar = () => {
         {loggedUser?.status ? <AdminRoute /> : <StudentRoute />}
 
         <Divider sx={{ marginY: "10px" }} />
+
+        {/* back to home route */}
+        <ListItem disablePadding>
+          <Link to="/" style={{ textDecoration: "none" }}>
+            <ListItemButton sx={{ width: "250px" }}>
+              <ListItemIcon sx={{ color: "white" }}>
+                <Home />
+              </ListItemIcon>
+              <Typography color="white">Back to Home</Typography>
+            </ListItemButton>
+          </Link>
+        </ListItem>
+
+        {/* login and logout route */}
         <ListItem disablePadding>
           {loggedUser ? (
             <ListItemButton onClick={handleLogOut} sx={{ width: "250px" }}>

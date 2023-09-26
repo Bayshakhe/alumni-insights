@@ -15,16 +15,16 @@ import { Link } from "react-router-dom";
 
 const StudentRoute = () => {
   const studentRoute = [
-    { label: "All Alumni", path: "/", icon: <Group /> },
+    { label: "All Alumni", path: "/dashboard", icon: <Group /> },
     {
       label: "Upcoming Events",
-      path: "/upcomingEvents",
+      path: "/dashboard/upcomingEvents",
       icon: <EventAvailable />,
     },
-    { label: "Payment", path: "/payment", icon: <Payments /> },
+    { label: "Payment", path: "/dashboard/payment", icon: <Payments /> },
     {
       label: "Payment History",
-      path: "/paymentHistory",
+      path: "/dashboard/paymentHistory",
       icon: <ReceiptLong />,
     },
   ];

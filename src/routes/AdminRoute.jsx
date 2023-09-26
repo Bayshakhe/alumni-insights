@@ -15,16 +15,16 @@ import { Link } from "react-router-dom";
 
 const AdminRoute = () => {
   const studentRoute = [
-    { label: "All Alumni", path: "/", icon: <Group /> },
-    { label: "All Students", path: "/allStudents", icon: <Group /> },
+    { label: "All Alumni", path: "/dashboard", icon: <Group /> },
+    { label: "All Students", path: "/dashboard/allStudents", icon: <Group /> },
     {
       label: "Upcoming Events",
-      path: "/upcomingEvents",
+      path: "/dashboard/upcomingEvents",
       icon: <EventAvailable />,
     },
     {
       label: "All Payment History",
-      path: "/paymentHistory",
+      path: "/dashboard/paymentHistory",
       icon: <ReceiptLong />,
     },
   ];

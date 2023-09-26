@@ -6,30 +6,35 @@ import UpcomingEvents from "../pages/DashboardPage/UpcomingEvents";
 import Payment from "../pages/DashboardPage/Payment/Payment";
 import RegisterPage from "../pages/RegisterPage/RegisterPage";
 import AllStudents from "../pages/DashboardPage/AllStudents/AllStudents";
+import HomePage from "../pages/Homepage/HomePage";
 
 const router = createBrowserRouter([
   {
     path: "/",
+    element: <HomePage />,
+  },
+  {
+    path: "/dashboard",
     element: <DashboardLayout />,
     children: [
       {
-        path: "/",
+        path: "/dashboard",
         element: <AllAlumni />,
       },
       {
-        path: "/allStudents",
+        path: "/dashboard/allStudents",
         element: <AllStudents />,
       },
       {
-        path: "/upcomingEvents",
+        path: "/dashboard/upcomingEvents",
         element: <UpcomingEvents />,
       },
       {
-        path: "/payment",
+        path: "/dashboard/payment",
         element: <Payment />,
       },
       {
-        path: "/paymentHistory",
+        path: "/dashboard/paymentHistory",
         element: <div>paymentHistory</div>,
       },
     ],
