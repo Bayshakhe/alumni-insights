@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 const NavBar = () => {
   const [open, setOpen] = useState(false);
-  const loggedUser = useLoggedUser();
+  const { loggedUser } = useLoggedUser();
   const navigate = useNavigate();
 
   const toggleSidebar = () => {

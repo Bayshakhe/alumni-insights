@@ -13,7 +13,7 @@ import useLoggedUser from "../../hooks/useLoggedUser";
 import { useGetAlumniStudentsQuery } from "../../redux/services/studentsService";
 
 const AllAlumni = () => {
-  const loggedUser = useLoggedUser();
+  const { loggedUser } = useLoggedUser();
   const { data } = useGetAlumniStudentsQuery();
   const rows = data;
   console.log(rows);

@@ -25,7 +25,6 @@ const CustomTextField = ({
             defaultValue={defaultValues || ""}
             variant="outlined"
             label={label}
-            color="warning"
             error={!!error}
             helperText={error?.message}
             sx={{ marginBottom: marginB }}

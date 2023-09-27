@@ -36,6 +36,7 @@ const Login = () => {
     >
       <Paper
         sx={{
+          width: "100%",
           maxWidth: "500px",
           height: "auto",
           padding: "30px",
@@ -43,23 +44,14 @@ const Login = () => {
           boxShadow: "5px 5px 30px lightgray",
         }}
       >
-        {/* <Typography>Login</Typography> */}
-        {/* <Card sx={{ textAlign: "center" }}> */}
-        <Box
-          sx={{
-            position: "absolute",
-            top: { xs: "18%", md: "" },
-            left: { xs: "40%", md: "45%" },
-          }}
-        >
-          <AccountCircle sx={{ fontSize: "120px" }} color="warning" />
-        </Box>
         <Box
           onSubmit={handleSubmit(handleFormData)}
           component="form"
           minWidth="300px"
-          pt={7}
         >
+          <Typography align="center" variant="h4" mt={1} mb={3}>
+            Login
+          </Typography>
           {/* Email field */}
           <CustomTextField
             name="email"
@@ -78,15 +70,22 @@ const Login = () => {
           {error && <Typography color="error">{error}</Typography>}
           <Typography variant="body2">
             New at Alumni Insights? Please
-            <Button href="/register" size="small" color="warning">
+            <Button href="/register" size="small" sx={{ color: "#309576" }}>
               Register
             </Button>
           </Typography>
           <Button
             type="submit"
-            color="warning"
+            sx={{
+              backgroundColor: "#309576",
+              marginTop: "15px",
+              color: "white",
+              "&:hover": {
+                backgroundColor: "white",
+                color: "#309576",
+              },
+            }}
             variant="contained"
-            sx={{ marginTop: "15px" }}
           >
             Login
           </Button>

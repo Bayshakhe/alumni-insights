@@ -16,7 +16,7 @@ import StudentRoute from "../routes/StudentRoute";
 import AdminRoute from "../routes/AdminRoute";
 
 const SideBar = () => {
-  const loggedUser = useLoggedUser();
+  const { loggedUser } = useLoggedUser();
   const navigate = useNavigate();
 
   const handleLogOut = () => {

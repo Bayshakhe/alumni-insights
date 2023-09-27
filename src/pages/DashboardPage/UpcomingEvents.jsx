@@ -115,7 +115,7 @@ const upcomingEvents = () => {
             </CardContent>
             <CardActions>
               <Button
-                href="/payment"
+                href="/dashboard/payment"
                 variant="contained"
                 sx={{
                   backgroundColor: "#309576",

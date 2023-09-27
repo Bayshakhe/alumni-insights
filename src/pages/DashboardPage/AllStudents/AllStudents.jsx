@@ -19,7 +19,7 @@ import {
 import toast from "react-hot-toast";
 
 const AllStudents = () => {
-  const loggedUser = useLoggedUser();
+  const { loggedUser } = useLoggedUser();
   const { data, refetch } = useGetAllStudentsQuery();
   const rows = data;
   const [deleteStudent, { data: dD, isSuccess }] = useDeleteStudentMutation();

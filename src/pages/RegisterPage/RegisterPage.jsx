@@ -213,9 +213,16 @@ const RegisterPage = () => {
           {/* submit button */}
           <Button
             type="submit"
-            color="warning"
+            sx={{
+              backgroundColor: "#309576",
+              marginTop: "15px",
+              color: "white",
+              "&:hover": {
+                backgroundColor: "white",
+                color: "#309576",
+              },
+            }}
             variant="contained"
-            sx={{ marginTop: "15px" }}
           >
             Register
           </Button>
@@ -224,7 +231,7 @@ const RegisterPage = () => {
         {/* path to login */}
         <Typography variant="body2">
           Already have an account? Please
-          <Button href="/login" size="small" color="warning">
+          <Button href="/login" size="small" sx={{ color: "#309576" }}>
             Login
           </Button>
         </Typography>

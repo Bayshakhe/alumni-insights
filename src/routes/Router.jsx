@@ -7,6 +7,7 @@ import Payment from "../pages/DashboardPage/Payment/Payment";
 import RegisterPage from "../pages/RegisterPage/RegisterPage";
 import AllStudents from "../pages/DashboardPage/AllStudents/AllStudents";
 import HomePage from "../pages/Homepage/HomePage";
+import PrivateRoute from "./PrivateRoute";
 
 const router = createBrowserRouter([
   {
@@ -15,11 +16,19 @@ const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <DashboardLayout />,
+    element: (
+      <PrivateRoute>
+        <DashboardLayout />
+      </PrivateRoute>
+    ),
     children: [
       {
         path: "/dashboard",
-        element: <AllAlumni />,
+        element: (
+          <PrivateRoute>
+            <AllAlumni />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/dashboard/allStudents",
@@ -31,7 +40,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/dashboard/payment",
-        element: <Payment />,
+        element: (
+          <PrivateRoute>
+            <Payment />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/dashboard/paymentHistory",
