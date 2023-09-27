@@ -2,6 +2,8 @@ import React from "react";
 import Banner from "./Banner";
 import NavBar from "../../Shared/NavBar";
 import OurEvents from "./OurEvents";
+import AboutUs from "./AboutUs";
+import Footer from "./Footer";
 
 const HomePage = () => {
   return (
@@ -9,6 +11,8 @@ const HomePage = () => {
       <NavBar />
       <Banner />
       <OurEvents />
+      <AboutUs />
+      <Footer />
     </div>
   );
 };

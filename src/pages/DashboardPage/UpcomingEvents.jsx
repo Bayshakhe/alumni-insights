@@ -33,19 +33,32 @@ const upcomingEvents = () => {
       availableTicket: "65",
       ticketPrice: "220",
     },
+
+    {
+      image:
+        "https://www.monmouth.edu/alumni/wp-content/uploads/sites/665/2023/02/23_Alumnifest_Web_Header.jpg",
+      name: "AlumniFest Network Reception 2023",
+      location: "RUET Campus, Rajshahi",
+      heldOn: "03 October, 2023",
+      time: "03:30 pm",
+      availableTicket: "80",
+      ticketPrice: "250",
+    },
   ];
+
   return (
     <Box
       m={5}
       sx={{
         display: "flex",
+        justifyContent: "center",
         flexDirection: { xs: "column", md: "row" },
-        gap: "20px",
+        gap: "30px",
       }}
     >
       {events?.map((event, i) => (
         <Box xs={12} md={6} key={i}>
-          <Card sx={{ maxWidth: 345 }}>
+          <Card sx={{ maxWidth: 360, padding: "10px" }}>
             <CardMedia
               sx={{ height: 150 }}
               image={event.image}
@@ -59,18 +72,20 @@ const upcomingEvents = () => {
                 variant="body2"
                 color="text.secondary"
                 display="flex"
+                gap={1}
                 alignItems="center"
                 mb={2}
               >
                 <LocationOn fontSize="small" />
                 {event.location}
               </Typography>
-              <Stack direction="row" justifyContent="space-between">
+              <Stack justifyContent="space-between">
                 <Typography
                   variant="body2"
                   color="text.secondary"
                   display="flex"
                   alignItems="center"
+                  gap={1}
                 >
                   <Event fontSize="small" />
                   {event.heldOn}
@@ -80,6 +95,7 @@ const upcomingEvents = () => {
                   color="text.secondary"
                   display="flex"
                   alignItems="center"
+                  gap={1}
                 >
                   <AccessTime fontSize="small" />
                   {event.time}
@@ -89,6 +105,7 @@ const upcomingEvents = () => {
                 variant="body2"
                 color="text.secondary"
                 display="flex"
+                gap={1}
                 alignItems="center"
                 mt={1}
               >
@@ -101,7 +118,7 @@ const upcomingEvents = () => {
                 href="/payment"
                 variant="contained"
                 sx={{
-                  backgroundColor: "#78909c",
+                  backgroundColor: "#309576",
                   "&:hover": { background: "#546e7a" },
                 }}
               >

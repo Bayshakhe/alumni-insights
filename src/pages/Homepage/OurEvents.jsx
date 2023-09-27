@@ -1,17 +1,14 @@
 import React from "react";
 import UpcomintEvents from "../DashboardPage/UpcomingEvents";
-import { Typography } from "@mui/material";
+import SectionTitle from "../../components/SectionTitle";
 
 const OurEvents = () => {
   return (
     <div>
-      <Typography
-        variant="h3"
-        my="40px"
-        sx={{ color: "#309576", textAlign: "center" }}
-      >
-        Our Upcoming Events
-      </Typography>
+      <SectionTitle
+        title="Our Upcoming Events"
+        subTitle="''Good fortune is what happens when opportunity meets with planning''"
+      />
       <UpcomintEvents />
     </div>
   );

@@ -1,46 +1,41 @@
-import {
-  Backdrop,
-  Box,
-  Button,
-  Card,
-  Drawer,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Avatar, Button, Stack, Typography } from "@mui/material";
 import React, { useState } from "react";
-import SideBar from "../components/SideBar";
 import { Menu } from "@mui/icons-material";
+import useLoggedUser from "../hooks/useLoggedUser";
+import { useNavigate } from "react-router-dom";
 
 const NavBar = () => {
   const [open, setOpen] = useState(false);
+  const loggedUser = useLoggedUser();
+  const navigate = useNavigate();
 
   const toggleSidebar = () => {
     setOpen(!open);
   };
+  const handleLogOut = () => {
+    localStorage.removeItem("id");
+    navigate("/");
+  };
   return (
     <Stack
+      backgroundColor="#309576"
       color="white"
       py={1}
       px={2}
       direction="row"
       spacing={2}
       sx={{
-        justifyContent: {
-          xs: "space-between",
-          md: "space-around",
-        },
+        justifyContent: "space-between",
         position: "fixed",
         top: 0,
         left: 0,
         right: 0,
         zIndex: 10,
         width: {
-          xs: "auto",
-          md: "1400px",
+          xs: "100%",
+          md: "1280px",
         },
         margin: "0 auto",
-        // borderBottom: "1px solid white",
-        // borderBottom: "white",
       }}
     >
       <Typography variant="h5" fontWeight="bold">
@@ -53,22 +48,55 @@ const NavBar = () => {
         <Button href="/dashboard" sx={{ color: "white" }}>
           Dashboard
         </Button>
+        <Button sx={{ color: "white" }}>Blog</Button>
       </Stack>
-      <Button
-        variant="outlined"
+
+      <Stack
+        direction="row"
+        spacing={1}
         sx={{
-          backgroundColor: "white",
-          color: "#309576",
-          border: "1px solid white",
-          "&:hover": {
-            color: "white",
-          },
-          display: { xs: "none", md: "block" },
+          display: { xs: "none", md: "flex" },
         }}
-        href="/login"
       >
-        Login
-      </Button>
+        <Avatar
+          alt={loggedUser?.firstName}
+          src={loggedUser?.photo}
+          title={loggedUser?.firstName}
+          // sx={{ width: 60, height: 60, margin: "15px auto 5px" }}
+        />
+
+        {loggedUser ? (
+          <Button
+            variant="contained"
+            onClick={handleLogOut}
+            sx={{
+              backgroundColor: "white",
+              color: "#309576",
+              border: "1px solid white",
+              "&:hover": {
+                color: "white",
+              },
+            }}
+          >
+            Log out
+          </Button>
+        ) : (
+          <Button
+            variant="contained"
+            sx={{
+              backgroundColor: "white",
+              color: "#309576",
+              border: "1px solid white",
+              "&:hover": {
+                color: "white",
+              },
+            }}
+            href="/login"
+          >
+            Login
+          </Button>
+        )}
+      </Stack>
 
       {/* mobile responsive */}
       <Stack sx={{ display: { xs: "block", md: "none" } }}>
@@ -79,7 +107,7 @@ const NavBar = () => {
           <Stack
             position="absolute"
             top="50px"
-            right="0px"
+            right="30px"
             sx={{
               display: { xs: "flex", md: "none" },
               backgroundColor: "white",
@@ -92,22 +120,48 @@ const NavBar = () => {
             <Button href="/dashboard" sx={{ color: "#309576" }}>
               Dashboard
             </Button>
+            <Button sx={{ color: "#309576" }}>Blog</Button>
 
-            <Button
-              variant="contained"
-              sx={{
-                backgroundColor: "#309576",
-                color: "white",
-                border: "1px solid white",
-                "&:hover": {
-                  backgroundColor: "white",
-                  color: "#309576",
-                },
-              }}
-              href="/login"
-            >
-              Login
-            </Button>
+            <Avatar
+              alt={loggedUser?.firstName}
+              src={loggedUser?.photo}
+              title={loggedUser?.firstName}
+              sx={{ margin: "0 auto 5px" }}
+            />
+
+            {loggedUser ? (
+              <Button
+                variant="contained"
+                onClick={handleLogOut}
+                sx={{
+                  backgroundColor: "#309576",
+                  color: "white",
+                  border: "1px solid white",
+                  "&:hover": {
+                    backgroundColor: "white",
+                    color: "#309576",
+                  },
+                }}
+              >
+                Log out
+              </Button>
+            ) : (
+              <Button
+                variant="contained"
+                sx={{
+                  backgroundColor: "#309576",
+                  color: "white",
+                  border: "1px solid white",
+                  "&:hover": {
+                    backgroundColor: "white",
+                    color: "#309576",
+                  },
+                }}
+                href="/login"
+              >
+                Login
+              </Button>
+            )}
           </Stack>
         )}
       </Stack>
