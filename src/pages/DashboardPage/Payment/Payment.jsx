@@ -3,15 +3,17 @@ import React from "react";
 import CheckoutForm from "./CheckoutForm";
 import { loadStripe } from "@stripe/stripe-js";
 import { useParams } from "react-router-dom";
+import { useGetSingleUpcomingEventQuery } from "../../../redux/services/eventService";
 
 const Payment = () => {
-  const { price } = useParams();
-  // console.log(price);
+  const { id } = useParams();
   const stripePromise = loadStripe(import.meta.env.VITE_Payment_Geteway_PK);
+  const { data } = useGetSingleUpcomingEventQuery(id);
+  // console.log(data);
   return (
     <>
       <Elements stripe={stripePromise}>
-        <CheckoutForm price={price} />
+        <CheckoutForm event={data} />
       </Elements>
     </>
   );

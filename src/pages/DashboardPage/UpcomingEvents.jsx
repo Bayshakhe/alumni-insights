@@ -11,41 +11,11 @@ import {
 } from "@mui/material";
 import { Stack } from "@mui/system";
 import { Link } from "react-router-dom";
+import { useGetUpcomingEventsQuery } from "../../redux/services/eventService";
 
 const upcomingEvents = () => {
-  const events = [
-    {
-      image:
-        "https://lighthouseworld.co.in/wp-content/uploads/2019/07/Annual-Day-7.jpg",
-      name: "NovaVerse National IT Festival",
-      location: "Administration Building 1, Rajshahi",
-      heldOn: "02 October, 2023",
-      time: "03:00 pm",
-      availableTicket: "42",
-      ticketPrice: "200",
-    },
-    {
-      image:
-        "https://www.yesmilano.it/sites/default/files/styles/testata_full/public/event_top_event/copertina/6877/27983/Banner-Sito-Homepage-18-18-2048x1152.png?itok=JWyDWY6e",
-      name: "Science Festival Universitario 2023",
-      location: "RUET Campus, Rajshahi",
-      heldOn: "24 October, 2023",
-      time: "05:00 pm",
-      availableTicket: "65",
-      ticketPrice: "220",
-    },
-
-    {
-      image:
-        "https://www.monmouth.edu/alumni/wp-content/uploads/sites/665/2023/02/23_Alumnifest_Web_Header.jpg",
-      name: "AlumniFest Network Reception 2023",
-      location: "RUET Campus, Rajshahi",
-      heldOn: "03 October, 2023",
-      time: "03:30 pm",
-      availableTicket: "80",
-      ticketPrice: "250",
-    },
-  ];
+  const { data: events } = useGetUpcomingEventsQuery();
+  // console.log(events);
 
   return (
     <Box
@@ -115,7 +85,7 @@ const upcomingEvents = () => {
               </Typography>
             </CardContent>
             <CardActions>
-              <Link to={`/dashboard/payment/${event.ticketPrice}`}>
+              <Link to={`/dashboard/payment/${event._id}`}>
                 <Button
                   variant="contained"
                   sx={{

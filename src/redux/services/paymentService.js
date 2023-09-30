@@ -25,6 +25,16 @@ export const paymentService = createApi({
         body: postBody,
       }),
     }),
+    givePayment: builder.mutation({
+      query: (postBody) => ({
+        url: "/payments",
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: postBody,
+      }),
+    }),
   }),
 });
 
@@ -32,4 +42,5 @@ export const {
   useGetAllPaymentQuery,
   useCreatePaymentMutation,
   useGetStudentPaymentQuery,
+  useGivePaymentMutation,
 } = paymentService;

@@ -1,10 +1,15 @@
 import { Box, Button, Typography } from "@mui/material";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import React, { useEffect, useState } from "react";
-import { useCreatePaymentMutation } from "../../../redux/services/paymentService";
+import {
+  useCreatePaymentMutation,
+  useGivePaymentMutation,
+} from "../../../redux/services/paymentService";
 import useLoggedUser from "../../../hooks/useLoggedUser";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
-const CheckoutForm = ({ price }) => {
+const CheckoutForm = ({ event }) => {
   const stripe = useStripe();
   const elements = useElements();
   const [clientSecret, setClientSecret] = useState();
@@ -12,22 +17,31 @@ const CheckoutForm = ({ price }) => {
   const [succeed, setSucceed] = useState(false);
   const [transactionId, setTransactionId] = useState();
   const [createPayment] = useCreatePaymentMutation();
+  const [givePayment] = useGivePaymentMutation();
   const { loggedUser } = useLoggedUser();
+  const navigate = useNavigate();
+
+  // console.log(parseInt(event?.ticketPrice));
 
   // get clientSecret
   useEffect(() => {
-    (async () => {
-      try {
-        const response = await createPayment({ price: parseInt(price) });
-        setClientSecret(response.data?.clientSecret);
-      } catch (err) {
-        console.log("Error occured when fetching books");
-      }
-    })();
-  }, [price, createPayment]);
+    if (parseInt(event?.ticketPrice) > 0) {
+      (async () => {
+        try {
+          const response = await createPayment({
+            price: parseInt(event?.ticketPrice),
+          });
+          console.log(response.data?.clientSecret);
+          setClientSecret(response.data?.clientSecret);
+        } catch (err) {
+          console.log("Error occured when fetching books");
+        }
+      })();
+    }
+  }, [event?.ticketPrice, createPayment]);
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
     if (!stripe || !elements) {
       // Stripe.js has not loaded yet. Make sure to disable
@@ -53,7 +67,7 @@ const CheckoutForm = ({ price }) => {
       console.log("error", error);
       setCardError(error?.message);
     } else {
-      console.log("[PaymentMethod]", paymentMethod);
+      // console.log("PaymentMethod", paymentMethod);
       setCardError("");
     }
 
@@ -62,7 +76,7 @@ const CheckoutForm = ({ price }) => {
         payment_method: {
           card: card,
           billing_details: {
-            name: loggedUser?.firstName + loggedUser?.lastName,
+            name: loggedUser?.firstName,
             email: loggedUser?.email,
             phone: loggedUser?.phone,
           },
@@ -73,10 +87,28 @@ const CheckoutForm = ({ price }) => {
     }
     if (paymentIntent.status === "succeeded") {
       console.log({ paymentIntent });
-      setTransactionId(paymentIntent.id);
-      setSucceed(true);
+      const payment = {
+        name: loggedUser?.firstName,
+        email: loggedUser?.email,
+        phone: loggedUser?.phone,
+        eventName: event?.name,
+        eventId: event?._id,
+        location: event?.location,
+        time: event?.time,
+        date: event?.heldOn,
+        ticketPrice: event?.ticketPrice,
+      };
+      const response = await givePayment(payment);
+      // console.log(response);
+      if (response?.data?.acknowledged) {
+        toast.success("Payment Succesfull");
+        setTransactionId(paymentIntent.id);
+        setSucceed(true);
+        navigate("/dashboard/paymentHistory");
+      }
     }
   };
+  // console.log(event);
   return (
     <Box width="100%" height="100%" margin="auto">
       <Box
@@ -111,7 +143,7 @@ const CheckoutForm = ({ price }) => {
         )}
         <Button
           type="submit"
-          disabled={!stripe}
+          disabled={!stripe || !clientSecret}
           variant="contained"
           sx={{
             backgroundColor: "#309576",

@@ -51,7 +51,7 @@ const router = createBrowserRouter([
         element: <UpcomingEvents />,
       },
       {
-        path: "/dashboard/payment/:price",
+        path: "/dashboard/payment/:id",
         element: (
           <PrivateRoute>
             <Payment />
