@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import {
   Avatar,
   IconButton,
+  Stack,
   Table,
   TableBody,
   TableCell,
@@ -17,14 +18,35 @@ import {
   useGetAllStudentsQuery,
 } from "../../../redux/services/studentsService";
 import toast from "react-hot-toast";
+import Swal from "sweetalert2";
 
 const AllStudents = () => {
   const { loggedUser } = useLoggedUser();
   const { data, refetch } = useGetAllStudentsQuery();
-  const rows = data;
+  const rows = data?.filter((e) => e.status !== "admin");
+
   const [deleteStudent, { data: dD, isSuccess }] = useDeleteStudentMutation();
+  // console.log(loggedUser);
   const handleDelete = (id) => {
-    deleteStudent(id);
+    Swal.fire({
+      title: "Delete this student?",
+      // text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "No, cancel!",
+      reverseButtons: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteStudent(id);
+        Swal.fire("Deleted!", "Student Deleted", "success");
+      } else if (
+        /* Read more about handling dismissals below */
+        result.dismiss === Swal.DismissReason.cancel
+      ) {
+        Swal.fire("Cancelled", "", "error");
+      }
+    });
   };
 
   useEffect(() => {
@@ -32,27 +54,48 @@ const AllStudents = () => {
       toast.success("Successfully Deleted User.");
       refetch();
     }
-  }, [isSuccess]);
+  }, [isSuccess, refetch]);
 
   return (
-    <div>
-      <TableContainer component="div">
+    <Stack minHeight="100vh" sx={{ margin: "20px", overflowX: "scroll" }}>
+      <TableContainer
+        component="div"
+        // sx={{ margin: "20px", overflow: "scroll" }}
+      >
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>Image</TableCell>
-              <TableCell>Name</TableCell>
-              <TableCell>Status</TableCell>
-              <TableCell>Company Name</TableCell>
-              <TableCell>Designation</TableCell>
-              <TableCell>Job Location</TableCell>
+              <TableCell sx={{ color: "white", fontWeight: "bold" }}>
+                Image
+              </TableCell>
+              <TableCell sx={{ color: "white", fontWeight: "bold" }}>
+                Name
+              </TableCell>
+              <TableCell sx={{ color: "white", fontWeight: "bold" }}>
+                Status
+              </TableCell>
+              <TableCell sx={{ color: "white", fontWeight: "bold" }}>
+                Company Name
+              </TableCell>
+              <TableCell sx={{ color: "white", fontWeight: "bold" }}>
+                Designation
+              </TableCell>
+              <TableCell sx={{ color: "white", fontWeight: "bold" }}>
+                Job Location
+              </TableCell>
               {loggedUser && (
                 <>
-                  <TableCell>Email</TableCell>
-                  <TableCell>Phone</TableCell>
+                  <TableCell sx={{ color: "white", fontWeight: "bold" }}>
+                    Email
+                  </TableCell>
+                  <TableCell sx={{ color: "white", fontWeight: "bold" }}>
+                    Phone
+                  </TableCell>
                 </>
               )}
-              <TableCell>Actions</TableCell>
+              <TableCell sx={{ color: "white", fontWeight: "bold" }}>
+                Actions
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -68,7 +111,9 @@ const AllStudents = () => {
                   {row.firstName + " "}
                   {row.lastName}
                 </TableCell>
-                <TableCell>{row?.status ? "ADMIN" : "Student"}</TableCell>
+                <TableCell>
+                  {row?.jobStatus === true ? "Alumni Student" : "Student"}
+                </TableCell>
                 <TableCell>{row?.jobInfo?.companyName || "N/A"}</TableCell>
                 <TableCell>{row?.jobInfo?.designation || "N/A"}</TableCell>
                 <TableCell>{row?.jobInfo?.jobLocation || "N/A"}</TableCell>
@@ -92,7 +137,7 @@ const AllStudents = () => {
           </TableBody>
         </Table>
       </TableContainer>
-    </div>
+    </Stack>
   );
 };
 

@@ -1,6 +1,7 @@
 import {
   Avatar,
   IconButton,
+  Stack,
   Table,
   TableBody,
   TableCell,
@@ -18,23 +19,39 @@ const AllAlumni = () => {
   const rows = data;
   console.log(rows);
   return (
-    <div>
+    <Stack minHeight="100vh" sx={{ margin: "20px", overflowX: "scroll" }}>
       <TableContainer component="div">
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>Image</TableCell>
-              <TableCell>Name</TableCell>
-              <TableCell>Company Name</TableCell>
-              <TableCell>Designation</TableCell>
-              <TableCell>Job Location</TableCell>
+              <TableCell sx={{ color: "white", fontWeight: "bold" }}>
+                Image
+              </TableCell>
+              <TableCell sx={{ color: "white", fontWeight: "bold" }}>
+                Name
+              </TableCell>
+              <TableCell sx={{ color: "white", fontWeight: "bold" }}>
+                Company Name
+              </TableCell>
+              <TableCell sx={{ color: "white", fontWeight: "bold" }}>
+                Designation
+              </TableCell>
+              <TableCell sx={{ color: "white", fontWeight: "bold" }}>
+                Job Location
+              </TableCell>
               {loggedUser && (
                 <>
-                  <TableCell>Email</TableCell>
-                  <TableCell>Phone</TableCell>
+                  <TableCell sx={{ color: "white", fontWeight: "bold" }}>
+                    Email
+                  </TableCell>
+                  <TableCell sx={{ color: "white", fontWeight: "bold" }}>
+                    Phone
+                  </TableCell>
                 </>
               )}
-              <TableCell>Details</TableCell>
+              {/* <TableCell sx={{ color: "white", fontWeight: "bold" }}>
+                Details
+              </TableCell> */}
             </TableRow>
           </TableHead>
           <TableBody>
@@ -59,17 +76,17 @@ const AllAlumni = () => {
                     <TableCell>{row.phone}</TableCell>
                   </>
                 )}
-                <TableCell>
+                {/* <TableCell>
                   <IconButton color="primary">
                     <ArrowOutward />
                   </IconButton>
-                </TableCell>
+                </TableCell> */}
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
-    </div>
+    </Stack>
   );
 };
 

@@ -46,7 +46,7 @@ const SideBar = () => {
 
         {/* user name */}
         {loggedUser && (
-          <Typography color="white" variant="h5" align="center" mb={4}>
+          <Typography color="white" variant="h6" align="center" mb={4}>
             {loggedUser?.firstName}
           </Typography>
         )}

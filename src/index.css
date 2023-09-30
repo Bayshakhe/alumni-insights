@@ -2,3 +2,14 @@ body{
     margin: 0;
     padding: 0;
 }
+table{
+    display: block;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+}
+table thead{
+    background-color: #309576;
+}
+.text-white{
+    color: white;
+}

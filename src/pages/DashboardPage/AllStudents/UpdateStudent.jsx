@@ -18,13 +18,18 @@ import { useNavigate } from "react-router-dom";
 import CustomTextField from "../../../components/CustomTextField";
 import { baseUrl } from "../../../helper/baseUrl";
 import { Update } from "@mui/icons-material";
-import { useUpdateStudentMutation } from "../../../redux/services/studentsService";
+import {
+  useGetAllStudentsQuery,
+  useUpdateStudentMutation,
+} from "../../../redux/services/studentsService";
+import toast from "react-hot-toast";
 
 const UpdateStudent = ({ id, student }) => {
   const [jobStatus, setJobStatus] = useState(true);
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
-  const [updateStudent] = useUpdateStudentMutation();
+  const [updateStudent, { isLoading }] = useUpdateStudentMutation();
+  const { refetch } = useGetAllStudentsQuery();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -47,22 +52,20 @@ const UpdateStudent = ({ id, student }) => {
 
   const handleFormData = async (data) => {
     // console.log(data);
-    const res = await updateStudent(data);
-    console.log(res);
-    // if (response?.data?.acknowledged) {
-    //   toast.success("Register successful.");
-    //   // console.log(response.data);
-    //   navigate("/login");
-    // } else {
-    //   toast("Already registered. Please Login.");
-    //   // console.log(response.data);
-    //   navigate("/login");
-    // }
+    const response = await updateStudent(data);
+    console.log(response.data);
+    if (response?.data?.modifiedCount > 0) {
+      toast.success("Update successful.");
+      refetch();
+    } else {
+      toast("Can not update");
+    }
+    setOpen(false);
   };
   return (
     <div>
       <Button color="primary" onClick={handleClickOpen}>
-        <Update />
+        <Update sx={{ color: "#309576" }} />
       </Button>
       <Dialog
         open={open}
@@ -71,8 +74,8 @@ const UpdateStudent = ({ id, student }) => {
         onClose={handleClose}
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle variant="h4" align="center" my={2}>
-          Update Student {id}
+        <DialogTitle variant="h4" align="center" mt={2}>
+          Update Student
         </DialogTitle>
         <DialogContent>
           <Paper
@@ -228,7 +231,15 @@ const UpdateStudent = ({ id, student }) => {
                 type="submit"
                 color="primary"
                 variant="contained"
-                sx={{ marginTop: "15px" }}
+                sx={{
+                  backgroundColor: "#309576",
+                  marginTop: "15px",
+                  color: "white",
+                  "&:hover": {
+                    backgroundColor: "white",
+                    color: "#309576",
+                  },
+                }}
               >
                 Update
               </Button>

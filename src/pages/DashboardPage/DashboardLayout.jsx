@@ -12,13 +12,15 @@ const DashboardLayout = () => {
   };
 
   return (
-    <div>
+    <>
+      {/* for large device */}
       <Box sx={{ display: { xs: "none", md: "block" } }}>
         <Stack direction="row">
           <SideBar></SideBar>
           <Outlet />
         </Stack>
       </Box>
+      {/* for small device */}
       <Box sx={{ display: { xs: "block", md: "none" } }}>
         <Button onClick={toggleSidebar}>
           {<Menu sx={{ color: "#309576" }} />}
@@ -31,7 +33,7 @@ const DashboardLayout = () => {
         {/* all outlet here */}
         <Outlet />
       </Box>
-    </div>
+    </>
   );
 };
 

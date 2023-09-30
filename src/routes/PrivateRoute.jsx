@@ -9,7 +9,7 @@ const PrivateRoute = ({ children }) => {
   const navigate = useNavigate();
 
   if (isError) {
-    toast.error("Please login first to visit Dashboard");
+    toast.error("Please login first to visit this route");
     navigate("/login");
   } else if (loggedUser) {
     return children;
@@ -17,7 +17,6 @@ const PrivateRoute = ({ children }) => {
     return (
       <Stack sx={{ width: "100%", color: "grey.500" }} spacing={2}>
         <LinearProgress color="secondary" />
-        hellouvybino
       </Stack>
     );
   }

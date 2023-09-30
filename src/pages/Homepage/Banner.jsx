@@ -47,7 +47,7 @@ const Banner = () => {
                 alignItems: "center",
               }}
             >
-              <Stack>
+              <Stack p={3}>
                 <Typography
                   variant="h4"
                   maxWidth="1100px"
