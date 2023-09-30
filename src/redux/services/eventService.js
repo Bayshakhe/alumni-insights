@@ -17,18 +17,28 @@ export const eventService = createApi({
         url: `/upcoming-events/${id}`,
       }),
     }),
-    // createPayment: builder.mutation({
-    //   query: (postBody) => ({
-    //     url: "/create-payment-intent",
-    //     method: "POST",
-    //     headers: {
-    //       "Content-type": "application/json",
-    //     },
-    //     body: postBody,
-    //   }),
-    // }),
+    addEvent: builder.mutation({
+      query: (postBody) => ({
+        url: "/upcoming-events",
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: postBody,
+      }),
+    }),
+    deleteEvent: builder.mutation({
+      query: (id) => ({
+        url: `/upcoming-events/${id}`,
+        method: "Delete",
+      }),
+    }),
   }),
 });
 
-export const { useGetUpcomingEventsQuery, useGetSingleUpcomingEventQuery } =
-  eventService;
+export const {
+  useGetUpcomingEventsQuery,
+  useGetSingleUpcomingEventQuery,
+  useAddEventMutation,
+  useDeleteEventMutation,
+} = eventService;

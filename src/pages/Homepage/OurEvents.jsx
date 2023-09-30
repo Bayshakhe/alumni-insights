@@ -1,5 +1,5 @@
 import React from "react";
-import UpcomintEvents from "../DashboardPage/UpcomingEvents";
+import UpcomintEvents from "../UpcomingEvents/UpcomingEvents";
 import SectionTitle from "../../components/SectionTitle";
 
 const OurEvents = () => {
@@ -9,7 +9,7 @@ const OurEvents = () => {
         title="Our Upcoming Events"
         subTitle="''Good fortune is what happens when opportunity meets with planning''"
       />
-      <UpcomintEvents />
+      <UpcomintEvents homepage={true} />
     </div>
   );
 };
