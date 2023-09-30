@@ -157,7 +157,6 @@ const RegisterPage = () => {
             </Grid>
             {/* Department field */}
             <Grid item xs={12} md={6} mt={2}>
-              {/* <InputLabel id="demo-simple-select-label">Job Status</InputLabel> */}
               <Controller
                 name="department"
                 control={control}

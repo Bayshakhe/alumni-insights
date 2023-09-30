@@ -1,14 +1,32 @@
-import { Button, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useCreatePaymentMutation } from "../../../redux/services/paymentService";
+import useLoggedUser from "../../../hooks/useLoggedUser";
 
-const CheckoutForm = () => {
+const CheckoutForm = ({ price }) => {
   const stripe = useStripe();
   const elements = useElements();
+  const [clientSecret, setClientSecret] = useState();
   const [cardError, setCardError] = useState();
+  const [succeed, setSucceed] = useState(false);
+  const [transactionId, setTransactionId] = useState();
+  const [createPayment] = useCreatePaymentMutation();
+  const { loggedUser } = useLoggedUser();
+
+  // get clientSecret
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await createPayment({ price: parseInt(price) });
+        setClientSecret(response.data?.clientSecret);
+      } catch (err) {
+        console.log("Error occured when fetching books");
+      }
+    })();
+  }, [price, createPayment]);
 
   const handleSubmit = async (event) => {
-    // Block native form submission.
     event.preventDefault();
 
     if (!stripe || !elements) {
@@ -31,45 +49,84 @@ const CheckoutForm = () => {
       type: "card",
       card,
     });
-
     if (error) {
-      console.log("[error]", error);
-      setCardError(error);
+      console.log("error", error);
+      setCardError(error?.message);
     } else {
       console.log("[PaymentMethod]", paymentMethod);
       setCardError("");
     }
+
+    const { paymentIntent, error: confirmError } =
+      await stripe.confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: card,
+          billing_details: {
+            name: loggedUser?.firstName + loggedUser?.lastName,
+            email: loggedUser?.email,
+            phone: loggedUser?.phone,
+          },
+        },
+      });
+    if (confirmError) {
+      console.log(confirmError);
+    }
+    if (paymentIntent.status === "succeeded") {
+      console.log({ paymentIntent });
+      setTransactionId(paymentIntent.id);
+      setSucceed(true);
+    }
   };
   return (
-    <>
-      <form onSubmit={handleSubmit}>
-        <CardElement
-          options={{
-            style: {
-              base: {
-                fontSize: "16px",
-                color: "#424770",
-                "::placeholder": {
-                  color: "#aab7c4",
+    <Box width="100%" height="100%" margin="auto">
+      <Box
+        maxWidth={500}
+        margin="auto"
+        component="form"
+        onSubmit={handleSubmit}
+      >
+        <Box border="1px solid #309576" p="8px" mb={1}>
+          <CardElement
+            options={{
+              style: {
+                base: {
+                  fontSize: "18px",
+                  color: "#424770",
+                  "::placeholder": {
+                    color: "#aab7c4",
+                  },
+                },
+                invalid: {
+                  color: "#9e2146",
                 },
               },
-              invalid: {
-                color: "#9e2146",
-              },
-            },
-          }}
-        />
+            }}
+          />
+        </Box>
+        {cardError && <Typography color="error">{cardError}</Typography>}
+        {succeed && (
+          <Typography sx={{ color: "#309576" }}>
+            Successfull payment with TransactionId:{transactionId}
+          </Typography>
+        )}
         <Button
-          variant="contained"
-          color="info"
           type="submit"
           disabled={!stripe}
+          variant="contained"
+          sx={{
+            backgroundColor: "#309576",
+            marginTop: "10px",
+            "&:hover": {
+              background: "white",
+              color: "#309576",
+              border: "1px solid #309576",
+            },
+          }}
         >
           Pay
         </Button>
-      </form>
-      {cardError && <Typography color="error">{cardError.message}</Typography>}
-    </>
+      </Box>
+    </Box>
   );
 };
 

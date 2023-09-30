@@ -26,11 +26,15 @@ import toast from "react-hot-toast";
 
 const UpdateStudent = ({ id, student }) => {
   const [jobStatus, setJobStatus] = useState(true);
+  const [department, setDepartment] = useState(student?.department);
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [updateStudent, { isLoading }] = useUpdateStudentMutation();
   const { refetch } = useGetAllStudentsQuery();
 
+  const handleDepartment = (event) => {
+    setDepartment(event.target.value);
+  };
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -165,6 +169,36 @@ const UpdateStudent = ({ id, student }) => {
                     control={control}
                     type="url"
                     label="Photo"
+                  />
+                </Grid>
+                {/* Department field */}
+                <Grid item xs={12} md={6} mt={2}>
+                  <Controller
+                    name="department"
+                    control={control}
+                    render={({ field, fieldState: { error } }) => (
+                      <TextField
+                        {...field}
+                        {...register("department")}
+                        select
+                        value={department}
+                        label="Department"
+                        onChange={handleDepartment}
+                        error={!!error}
+                        helperText={error?.message}
+                        fullWidth
+                      >
+                        <MenuItem value="Computer Sceience">
+                          Computer Sceience
+                        </MenuItem>
+                        <MenuItem value="English">English</MenuItem>
+                        <MenuItem value="Mathematics">Mathematics</MenuItem>
+                        <MenuItem value="Chemistry">Chemistry</MenuItem>
+                        <MenuItem value="Electrical Engineering">
+                          Electrical Engineering
+                        </MenuItem>
+                      </TextField>
+                    )}
                   />
                 </Grid>
                 {/* job status select field */}
