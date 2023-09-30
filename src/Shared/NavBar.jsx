@@ -2,7 +2,7 @@ import { Avatar, Button, Stack, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { Menu } from "@mui/icons-material";
 import useLoggedUser from "../hooks/useLoggedUser";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const NavBar = () => {
   const [open, setOpen] = useState(false);
@@ -38,16 +38,24 @@ const NavBar = () => {
         margin: "0 auto",
       }}
     >
-      <Typography variant="h5" fontWeight="bold">
-        Alumni Insights
-      </Typography>
+      <Link to="/">
+        <Typography variant="h5" fontWeight="bold" sx={{ color: "white" }}>
+          Alumni Insights
+        </Typography>
+      </Link>
       <Stack direction="row" sx={{ display: { xs: "none", md: "block" } }}>
-        <Button href="/" sx={{ color: "white" }}>
-          Home
-        </Button>
-        <Button href="/dashboard" sx={{ color: "white" }}>
-          Dashboard
-        </Button>
+        <Link to="/">
+          <Button sx={{ color: "white" }}>Home</Button>
+        </Link>
+        {loggedUser && (
+          <Link to="/dashboard">
+            <Button sx={{ color: "white" }}>Dashboard</Button>
+          </Link>
+        )}
+        <Link to="/alumni">
+          <Button sx={{ color: "white" }}>All Alumni</Button>
+        </Link>
+
         <Button sx={{ color: "white" }}>Blog</Button>
       </Stack>
 
@@ -114,12 +122,14 @@ const NavBar = () => {
               padding: "5px",
             }}
           >
-            <Button href="/" sx={{ color: "#309576" }}>
-              Home
-            </Button>
-            <Button href="/dashboard" sx={{ color: "#309576" }}>
-              Dashboard
-            </Button>
+            <Link to="/">
+              <Button sx={{ color: "#309576" }}>Home</Button>
+            </Link>
+            {loggedUser && (
+              <Link to="/dashboard">
+                <Button sx={{ color: "#309576" }}>Dashboard</Button>
+              </Link>
+            )}
             <Button sx={{ color: "#309576" }}>Blog</Button>
 
             <Avatar
@@ -146,21 +156,22 @@ const NavBar = () => {
                 Log out
               </Button>
             ) : (
-              <Button
-                variant="contained"
-                sx={{
-                  backgroundColor: "#309576",
-                  color: "white",
-                  border: "1px solid white",
-                  "&:hover": {
-                    backgroundColor: "white",
-                    color: "#309576",
-                  },
-                }}
-                href="/login"
-              >
-                Login
-              </Button>
+              <Link to="/login">
+                <Button
+                  variant="contained"
+                  sx={{
+                    backgroundColor: "#309576",
+                    color: "white",
+                    border: "1px solid white",
+                    "&:hover": {
+                      backgroundColor: "white",
+                      color: "#309576",
+                    },
+                  }}
+                >
+                  Login
+                </Button>
+              </Link>
             )}
           </Stack>
         )}

@@ -1,5 +1,6 @@
 import {
   Avatar,
+  Box,
   IconButton,
   Stack,
   Table,
@@ -9,7 +10,6 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { ArrowOutward } from "@mui/icons-material";
 import useLoggedUser from "../../hooks/useLoggedUser";
 import { useGetAlumniStudentsQuery } from "../../redux/services/studentsService";
 
@@ -17,9 +17,9 @@ const AllAlumni = () => {
   const { loggedUser } = useLoggedUser();
   const { data } = useGetAlumniStudentsQuery();
   const rows = data;
-  console.log(rows);
+  // console.log(rows);
   return (
-    <Stack minHeight="100vh" sx={{ margin: "20px", overflowX: "scroll" }}>
+    <Box minHeight="94vh" sx={{ margin: "20px auto" }}>
       <TableContainer component="div">
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -39,16 +39,12 @@ const AllAlumni = () => {
               <TableCell sx={{ color: "white", fontWeight: "bold" }}>
                 Job Location
               </TableCell>
-              {loggedUser && (
-                <>
-                  <TableCell sx={{ color: "white", fontWeight: "bold" }}>
-                    Email
-                  </TableCell>
-                  <TableCell sx={{ color: "white", fontWeight: "bold" }}>
-                    Phone
-                  </TableCell>
-                </>
-              )}
+              <TableCell sx={{ color: "white", fontWeight: "bold" }}>
+                Email
+              </TableCell>
+              <TableCell sx={{ color: "white", fontWeight: "bold" }}>
+                Phone
+              </TableCell>
               {/* <TableCell sx={{ color: "white", fontWeight: "bold" }}>
                 Details
               </TableCell> */}
@@ -70,10 +66,15 @@ const AllAlumni = () => {
                 <TableCell>{row?.jobInfo?.companyName}</TableCell>
                 <TableCell>{row?.jobInfo?.designation}</TableCell>
                 <TableCell>{row?.jobInfo?.jobLocation}</TableCell>
-                {loggedUser && (
+                {loggedUser ? (
                   <>
                     <TableCell>{row.email}</TableCell>
                     <TableCell>{row.phone}</TableCell>
+                  </>
+                ) : (
+                  <>
+                    <TableCell></TableCell>
+                    <TableCell></TableCell>
                   </>
                 )}
                 {/* <TableCell>
@@ -86,7 +87,7 @@ const AllAlumni = () => {
           </TableBody>
         </Table>
       </TableContainer>
-    </Stack>
+    </Box>
   );
 };
 

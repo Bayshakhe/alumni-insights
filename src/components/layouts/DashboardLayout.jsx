@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Box, Button, Drawer, Backdrop, Stack } from "@mui/material";
 import { Menu } from "@mui/icons-material";
 import { Outlet } from "react-router-dom";
-import SideBar from "../../components/SideBar";
+import SideBar from "../SideBar";
 
 const DashboardLayout = () => {
   const [open, setOpen] = useState(false);

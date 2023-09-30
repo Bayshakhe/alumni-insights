@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import {
   Avatar,
+  Box,
   IconButton,
   Stack,
   Table,
@@ -57,12 +58,16 @@ const AllStudents = () => {
   }, [isSuccess, refetch]);
 
   return (
-    <Stack minHeight="100vh" sx={{ margin: "20px", overflowX: "scroll" }}>
-      <TableContainer
-        component="div"
-        // sx={{ margin: "20px", overflow: "scroll" }}
-      >
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+    <Box
+      minHeight="94vh"
+      width="100%"
+      sx={{ margin: "20px", overflowY: "scroll" }}
+    >
+      <TableContainer component="div" sx={{}}>
+        <Table
+          sx={{ minWidth: 650, marginX: "auto" }}
+          aria-label="simple table"
+        >
           <TableHead>
             <TableRow>
               <TableCell sx={{ color: "white", fontWeight: "bold" }}>
@@ -137,7 +142,7 @@ const AllStudents = () => {
           </TableBody>
         </Table>
       </TableContainer>
-    </Stack>
+    </Box>
   );
 };
 

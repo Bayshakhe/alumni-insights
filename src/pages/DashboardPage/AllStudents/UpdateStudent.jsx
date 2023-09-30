@@ -17,7 +17,7 @@ import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import CustomTextField from "../../../components/CustomTextField";
 import { baseUrl } from "../../../helper/baseUrl";
-import { Update } from "@mui/icons-material";
+import { EditNote } from "@mui/icons-material";
 import {
   useGetAllStudentsQuery,
   useUpdateStudentMutation,
@@ -64,8 +64,8 @@ const UpdateStudent = ({ id, student }) => {
   };
   return (
     <div>
-      <Button color="primary" onClick={handleClickOpen}>
-        <Update sx={{ color: "#309576" }} />
+      <Button onClick={handleClickOpen}>
+        <EditNote sx={{ color: "#309576" }} />
       </Button>
       <Dialog
         open={open}
