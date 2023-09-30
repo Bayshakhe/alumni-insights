@@ -7,12 +7,12 @@ export const paymentService = createApi({
   endpoints: (builder) => ({
     getAllPayment: builder.query({
       query: () => ({
-        url: "",
+        url: "/allPayments",
       }),
     }),
     getStudentPayment: builder.query({
-      query: () => ({
-        url: "",
+      query: (email) => ({
+        url: `/payments/${email}`,
       }),
     }),
     createPayment: builder.mutation({

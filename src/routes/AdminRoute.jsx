@@ -24,7 +24,7 @@ const AdminRoute = () => {
     },
     {
       label: "All Payment History",
-      path: "/dashboard/paymentHistory",
+      path: "/dashboard/allPaymentHistory",
       icon: <ReceiptLong />,
     },
   ];
