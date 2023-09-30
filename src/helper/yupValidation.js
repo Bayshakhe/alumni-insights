@@ -18,7 +18,9 @@ const schema = yup.object({
   phone: yup
     .string()
     .matches(/^01[3456789][\d]{8}/, "Phone number is not valid")
+    .max(11)
     .required("This field is required"),
+  department: yup.string().required("Please select a department"),
   photo: yup.string().url().required("This field is required"),
   //   jobInfo: yup.object({
   //     companyName: yup.string().required("This field is required"),

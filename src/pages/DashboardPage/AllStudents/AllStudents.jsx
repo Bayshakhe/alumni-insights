@@ -77,6 +77,9 @@ const AllStudents = () => {
                 Name
               </TableCell>
               <TableCell sx={{ color: "white", fontWeight: "bold" }}>
+                Department
+              </TableCell>
+              <TableCell sx={{ color: "white", fontWeight: "bold" }}>
                 Status
               </TableCell>
               <TableCell sx={{ color: "white", fontWeight: "bold" }}>
@@ -116,6 +119,7 @@ const AllStudents = () => {
                   {row.firstName + " "}
                   {row.lastName}
                 </TableCell>
+                <TableCell>{row?.department}</TableCell>
                 <TableCell>
                   {row?.jobStatus === true ? "Alumni Student" : "Student"}
                 </TableCell>

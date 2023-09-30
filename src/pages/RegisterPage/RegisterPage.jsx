@@ -23,6 +23,7 @@ import toast from "react-hot-toast";
 const RegisterPage = () => {
   const [postRegisterStudent] = usePostRegisterStudentMutation();
   const [jobStatus, setJobStatus] = useState(false);
+  const [department, setDepartment] = useState();
   const navigate = useNavigate();
   const {
     handleSubmit,
@@ -35,6 +36,9 @@ const RegisterPage = () => {
 
   const handleJobStatus = (event) => {
     setJobStatus(event.target.value);
+  };
+  const handleDepartment = (event) => {
+    setDepartment(event.target.value);
   };
 
   const handleFormData = async (data) => {
@@ -151,8 +155,39 @@ const RegisterPage = () => {
                 label="Photo"
               />
             </Grid>
+            {/* Department field */}
+            <Grid item xs={12} md={6} mt={2}>
+              {/* <InputLabel id="demo-simple-select-label">Job Status</InputLabel> */}
+              <Controller
+                name="department"
+                control={control}
+                render={({ field, fieldState: { error } }) => (
+                  <TextField
+                    {...field}
+                    {...register("department")}
+                    select
+                    value={department}
+                    label="Department"
+                    onChange={handleDepartment}
+                    error={!!error}
+                    helperText={error?.message}
+                    fullWidth
+                  >
+                    <MenuItem value="Computer Sceience">
+                      Computer Sceience
+                    </MenuItem>
+                    <MenuItem value="English">English</MenuItem>
+                    <MenuItem value="Mathematics">Mathematics</MenuItem>
+                    <MenuItem value="Chemistry">Chemistry</MenuItem>
+                    <MenuItem value="Electrical Engineering">
+                      Electrical Engineering
+                    </MenuItem>
+                  </TextField>
+                )}
+              />
+            </Grid>
             {/* job status select field */}
-            <Grid item xs={12} mt={2}>
+            <Grid item xs={12} md={6} mt={2}>
               {/* <InputLabel id="demo-simple-select-label">Job Status</InputLabel> */}
               <Controller
                 name="jobStatus"

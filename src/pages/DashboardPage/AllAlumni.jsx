@@ -31,6 +31,9 @@ const AllAlumni = () => {
                 Name
               </TableCell>
               <TableCell sx={{ color: "white", fontWeight: "bold" }}>
+                Department
+              </TableCell>
+              <TableCell sx={{ color: "white", fontWeight: "bold" }}>
                 Company Name
               </TableCell>
               <TableCell sx={{ color: "white", fontWeight: "bold" }}>
@@ -63,6 +66,7 @@ const AllAlumni = () => {
                   {row.firstName + " "}
                   {row.lastName}
                 </TableCell>
+                <TableCell>{row?.department}</TableCell>
                 <TableCell>{row?.jobInfo?.companyName}</TableCell>
                 <TableCell>{row?.jobInfo?.designation}</TableCell>
                 <TableCell>{row?.jobInfo?.jobLocation}</TableCell>
