@@ -43,7 +43,11 @@ const AllAlumni = () => {
   };
 
   const handleDepartment = (e) => {
-    setFilterByDepartment(e.target.value);
+    if (e.target.value === "All") {
+      setFilterByDepartment("");
+    } else {
+      setFilterByDepartment(e.target.value);
+    }
   };
 
   // search by text function
@@ -63,19 +67,24 @@ const AllAlumni = () => {
   // search by text function
   const searchByDepartment = () => {
     let filtered = [];
+    setFilteredData(rows);
     if (filterByDepartment) {
       filtered = rows?.filter((row) => row?.department === filterByDepartment);
       setFilteredData(filtered);
-    } else {
-      setFilteredData(rows);
     }
   };
 
   return (
     <Box minHeight="94vh" sx={{ margin: "20px auto" }}>
       {/* search field */}
-      <Stack direction="row" justifyContent="center">
-        <FormControl sx={{ m: 1 }} variant="outlined">
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+        mb={1}
+      >
+        {/* search by text */}
+        <FormControl variant="outlined">
           <OutlinedInput
             placeholder="Search"
             onChange={handleSearch}
@@ -86,23 +95,23 @@ const AllAlumni = () => {
             }
           />
         </FormControl>
-        <div>
-          <TextField
-            select
-            fullWidth
-            // value={department}
-            label="Department"
-            onChange={handleDepartment}
-          >
-            <MenuItem value="Computer Sceience">Computer Sceience</MenuItem>
-            <MenuItem value="English">English</MenuItem>
-            <MenuItem value="Mathematics">Mathematics</MenuItem>
-            <MenuItem value="Chemistry">Chemistry</MenuItem>
-            <MenuItem value="Electrical Engineering">
-              Electrical Engineering
-            </MenuItem>
-          </TextField>
-        </div>
+        {/* filterByDepartment */}
+        <TextField
+          sx={{ minWidth: { xs: "150px", md: "200px" } }}
+          select
+          defaultValue="All"
+          label="Filter by Department"
+          onChange={handleDepartment}
+        >
+          <MenuItem value="All">All</MenuItem>
+          <MenuItem value="Computer Sceience">Computer Sceience</MenuItem>
+          <MenuItem value="English">English</MenuItem>
+          <MenuItem value="Mathematics">Mathematics</MenuItem>
+          <MenuItem value="Chemistry">Chemistry</MenuItem>
+          <MenuItem value="Electrical Engineering">
+            Electrical Engineering
+          </MenuItem>
+        </TextField>
       </Stack>
       {/* table */}
       <TableContainer component="div">
@@ -166,11 +175,6 @@ const AllAlumni = () => {
                     <TableCell></TableCell>
                   </>
                 )}
-                {/* <TableCell>
-                  <IconButton color="primary">
-                    <ArrowOutward />
-                  </IconButton>
-                </TableCell> */}
               </TableRow>
             ))}
           </TableBody>

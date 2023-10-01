@@ -2,7 +2,11 @@ import { useEffect, useState } from "react";
 import {
   Avatar,
   Box,
+  FormControl,
   IconButton,
+  InputAdornment,
+  MenuItem,
+  OutlinedInput,
   Stack,
   Table,
   TableBody,
@@ -10,8 +14,9 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  TextField,
 } from "@mui/material";
-import { Delete } from "@mui/icons-material";
+import { Delete, Search } from "@mui/icons-material";
 import useLoggedUser from "../../../hooks/useLoggedUser";
 import UpdateStudent from "./UpdateStudent";
 import {
@@ -23,10 +28,35 @@ import Swal from "sweetalert2";
 
 const AllStudents = () => {
   const { loggedUser } = useLoggedUser();
-  const { data, refetch } = useGetAllStudentsQuery();
-  const rows = data?.filter((e) => e.status !== "admin");
-
+  const {
+    data: rows,
+    refetch,
+    isSuccess: dataIssuccess,
+  } = useGetAllStudentsQuery();
+  const [searchText, setSearchText] = useState("");
+  const [filteredData, setFilteredData] = useState([]);
+  const [filterByDepartment, setFilterByDepartment] = useState("");
+  const [filterByJobStatus, setFilterByJobStatus] = useState("All");
   const [deleteStudent, { data: dD, isSuccess }] = useDeleteStudentMutation();
+
+  // useEffect(() => {
+  //   if (data) {
+  //     if (searchText) {
+  //       let filtered = filteredData?.filter((row) =>
+  //         row?.firstName.toLowerCase().includes(searchText.toLowerCase())
+  //       );
+  //       console.log(filtered);
+  //     }
+
+  //     const newFilteredData = [...data]?.filter((e) => e.status !== "admin");
+  //     if (newFilteredData) {
+  //       setFilteredData(newFilteredData);
+  //     }
+  //   }
+  // }, [data, searchText]);
+
+  // console.log({ filteredData, rows });
+
   // console.log(loggedUser);
   const handleDelete = (id) => {
     Swal.fire({
@@ -51,6 +81,76 @@ const AllStudents = () => {
   };
 
   useEffect(() => {
+    if (!searchText || !filterByDepartment || !filterByJobStatus) {
+      const students = rows?.filter((e) => e.status !== "admin");
+      setFilteredData(students);
+    }
+    if (rows) {
+      searchByText();
+    }
+    if (filterByDepartment) {
+      searchByDepartment();
+    }
+    if (filterByJobStatus) {
+      searchByJobStatus();
+    }
+  }, [rows, searchText, filterByDepartment, filterByJobStatus]);
+
+  const handleSearch = (e) => {
+    setSearchText(e.target.value);
+  };
+
+  const handleDepartment = (e) => {
+    if (e.target.value === "All") {
+      setFilterByDepartment("");
+    } else {
+      setFilterByDepartment(e.target.value);
+    }
+  };
+
+  // search by text function
+  const searchByText = () => {
+    let filtered = [];
+    // const filtered = rows?.filter(row => row.firstName || row.department || row?.jobInfo?.companyName || row?.jobInfo?.designation || row?.jobInfo?.jobLocation || row.email || row.phone.toLowarCase().incl)
+    if (searchText) {
+      filtered = rows?.filter((row) =>
+        row?.firstName.toLowerCase().includes(searchText.toLowerCase())
+      );
+      setFilteredData(filtered);
+    }
+  };
+
+  // filter by department function
+  const searchByDepartment = () => {
+    let filtered = [];
+    setFilteredData(rows);
+    if (filterByDepartment) {
+      filtered = rows?.filter((row) => row?.department === filterByDepartment);
+      setFilteredData(filtered);
+    }
+  };
+
+  const searchByJobStatus = () => {
+    const jobStatusTrue = rows?.filter((row) => row?.jobStatus === true);
+    const jobStatusFalse = rows?.filter((row) => row?.jobStatus === "false");
+    // setFilteredData(rows);
+    if (filterByJobStatus === "Yes") {
+      setFilteredData(jobStatusTrue);
+    } else if (filterByJobStatus === "No") {
+      setFilteredData(jobStatusFalse);
+    }
+  };
+
+  // filter by department
+  const handleJobStatus = (e) => {
+    if (e.target.value === "All") {
+      setFilterByJobStatus("");
+    } else {
+      setFilterByJobStatus(e.target.value);
+    }
+  };
+
+  useEffect(() => {
     if (isSuccess) {
       toast.success("Successfully Deleted User.");
       refetch();
@@ -63,6 +163,56 @@ const AllStudents = () => {
       width="100%"
       sx={{ margin: "20px", overflowY: "scroll" }}
     >
+      {/* search field */}
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+        mb={1}
+      >
+        {/* search by text */}
+        <FormControl variant="outlined">
+          <OutlinedInput
+            placeholder="Search"
+            onChange={handleSearch}
+            startAdornment={
+              <InputAdornment position="start">
+                <Search />
+              </InputAdornment>
+            }
+          />
+        </FormControl>
+        {/* filterByDepartment */}
+        <Stack direction="row" spacing={1}>
+          <TextField
+            sx={{ minWidth: { xs: "150px", md: "200px" } }}
+            select
+            label="Filter by Job Status"
+            onChange={handleJobStatus}
+            defaultValue="All"
+          >
+            <MenuItem value="All">All</MenuItem>
+            <MenuItem value="Yes">Yes</MenuItem>
+            <MenuItem value="No">No</MenuItem>
+          </TextField>
+          <TextField
+            sx={{ minWidth: { xs: "150px", md: "200px" } }}
+            select
+            label="Filter by Department"
+            onChange={handleDepartment}
+            defaultValue="All"
+          >
+            <MenuItem value="All">All</MenuItem>
+            <MenuItem value="Computer Sceience">Computer Sceience</MenuItem>
+            <MenuItem value="English">English</MenuItem>
+            <MenuItem value="Mathematics">Mathematics</MenuItem>
+            <MenuItem value="Chemistry">Chemistry</MenuItem>
+            <MenuItem value="Electrical Engineering">
+              Electrical Engineering
+            </MenuItem>
+          </TextField>
+        </Stack>
+      </Stack>
       <TableContainer component="div" sx={{}}>
         <Table
           sx={{ minWidth: 650, marginX: "auto" }}
@@ -107,7 +257,7 @@ const AllStudents = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows?.map((row) => (
+            {filteredData?.map((row) => (
               <TableRow
                 key={row._id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
