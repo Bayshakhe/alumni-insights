@@ -19,7 +19,7 @@ const Login = () => {
     console.log(response);
     if (response?.data?.error) {
       setError(response?.data?.error);
-    } else {
+    } else if (localStorage.getItem("id") !== undefined) {
       localStorage.setItem("id", response?.data?._id);
       toast.success("WELCOME");
       setError("");

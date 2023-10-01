@@ -1,7 +1,13 @@
 import {
   Avatar,
   Box,
+  Button,
+  FilledInput,
+  FormControl,
   IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
   Stack,
   Table,
   TableBody,
@@ -9,17 +15,62 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  TextField,
 } from "@mui/material";
 import useLoggedUser from "../../hooks/useLoggedUser";
 import { useGetAlumniStudentsQuery } from "../../redux/services/studentsService";
+import { Search } from "@mui/icons-material";
+import { useEffect, useState } from "react";
 
 const AllAlumni = () => {
   const { loggedUser } = useLoggedUser();
-  const { data } = useGetAlumniStudentsQuery();
-  const rows = data;
-  // console.log(rows);
+  const { data: rows } = useGetAlumniStudentsQuery();
+  const [searchText, setSearchText] = useState("");
+  const [filteredData, setFilteredData] = useState(rows);
+
+  useEffect(() => {
+    if (!searchText) {
+      setFilteredData(rows);
+    }
+    if (rows) {
+      search();
+    }
+  }, [searchText, rows]);
+
+  const handleSearch = (e) => {
+    setSearchText(e.target.value);
+  };
+
+  // search by text function
+  const search = () => {
+    let filtered = [...rows];
+    // const filtered = rows?.filter(row => row.firstName || row.department || row?.jobInfo?.companyName || row?.jobInfo?.designation || row?.jobInfo?.jobLocation || row.email || row.phone.toLowarCase().incl)
+    if (searchText) {
+      filtered = rows?.filter((row) =>
+        row.firstName.toLowerCase().includes(searchText.toLowerCase())
+      );
+      setFilteredData(filtered);
+    } else {
+      setFilteredData(rows);
+    }
+  };
+
   return (
     <Box minHeight="94vh" sx={{ margin: "20px auto" }}>
+      <Stack direction="row" justifyContent="center">
+        <FormControl sx={{ m: 1 }} variant="outlined">
+          <OutlinedInput
+            placeholder="Search"
+            // value={searchText}
+            onChange={handleSearch}
+            startAdornment={
+              <InputAdornment position="start">
+                <Search />
+              </InputAdornment>
+            }
+          />
+        </FormControl>
+      </Stack>
       <TableContainer component="div">
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -54,7 +105,7 @@ const AllAlumni = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows?.map((row) => (
+            {filteredData?.map((row) => (
               <TableRow
                 key={row._id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
