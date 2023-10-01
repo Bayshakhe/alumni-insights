@@ -1,12 +1,9 @@
 import {
   Avatar,
   Box,
-  Button,
-  FilledInput,
   FormControl,
-  IconButton,
   InputAdornment,
-  InputLabel,
+  MenuItem,
   OutlinedInput,
   Stack,
   Table,
@@ -27,28 +24,47 @@ const AllAlumni = () => {
   const { data: rows } = useGetAlumniStudentsQuery();
   const [searchText, setSearchText] = useState("");
   const [filteredData, setFilteredData] = useState(rows);
+  const [filterByDepartment, setFilterByDepartment] = useState("");
 
   useEffect(() => {
     if (!searchText) {
       setFilteredData(rows);
     }
     if (rows) {
-      search();
+      searchByText();
     }
-  }, [searchText, rows]);
+    if (filterByDepartment) {
+      searchByDepartment();
+    }
+  }, [searchText, rows, filterByDepartment]);
 
   const handleSearch = (e) => {
     setSearchText(e.target.value);
   };
 
+  const handleDepartment = (e) => {
+    setFilterByDepartment(e.target.value);
+  };
+
   // search by text function
-  const search = () => {
-    let filtered = [...rows];
+  const searchByText = () => {
+    let filtered = [];
     // const filtered = rows?.filter(row => row.firstName || row.department || row?.jobInfo?.companyName || row?.jobInfo?.designation || row?.jobInfo?.jobLocation || row.email || row.phone.toLowarCase().incl)
     if (searchText) {
       filtered = rows?.filter((row) =>
-        row.firstName.toLowerCase().includes(searchText.toLowerCase())
+        row?.firstName.toLowerCase().includes(searchText.toLowerCase())
       );
+      setFilteredData(filtered);
+    } else {
+      setFilteredData(rows);
+    }
+  };
+
+  // search by text function
+  const searchByDepartment = () => {
+    let filtered = [];
+    if (filterByDepartment) {
+      filtered = rows?.filter((row) => row?.department === filterByDepartment);
       setFilteredData(filtered);
     } else {
       setFilteredData(rows);
@@ -57,11 +73,11 @@ const AllAlumni = () => {
 
   return (
     <Box minHeight="94vh" sx={{ margin: "20px auto" }}>
+      {/* search field */}
       <Stack direction="row" justifyContent="center">
         <FormControl sx={{ m: 1 }} variant="outlined">
           <OutlinedInput
             placeholder="Search"
-            // value={searchText}
             onChange={handleSearch}
             startAdornment={
               <InputAdornment position="start">
@@ -70,7 +86,25 @@ const AllAlumni = () => {
             }
           />
         </FormControl>
+        <div>
+          <TextField
+            select
+            fullWidth
+            // value={department}
+            label="Department"
+            onChange={handleDepartment}
+          >
+            <MenuItem value="Computer Sceience">Computer Sceience</MenuItem>
+            <MenuItem value="English">English</MenuItem>
+            <MenuItem value="Mathematics">Mathematics</MenuItem>
+            <MenuItem value="Chemistry">Chemistry</MenuItem>
+            <MenuItem value="Electrical Engineering">
+              Electrical Engineering
+            </MenuItem>
+          </TextField>
+        </div>
       </Stack>
+      {/* table */}
       <TableContainer component="div">
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
