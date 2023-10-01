@@ -49,7 +49,7 @@ const Banner = () => {
             >
               <Stack p={3}>
                 <Typography
-                  variant="h4"
+                  variant="h2"
                   maxWidth="1100px"
                   sx={{ color: "white" }}
                 >
@@ -57,6 +57,7 @@ const Banner = () => {
                 </Typography>{" "}
                 {/* <Divider /> */}
                 <Typography
+                  variant="h6"
                   maxWidth="1100px"
                   align="right"
                   sx={{ color: "white" }}

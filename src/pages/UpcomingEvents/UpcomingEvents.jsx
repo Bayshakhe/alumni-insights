@@ -71,7 +71,7 @@ const upcomingEvents = ({ homepage }) => {
       >
         {events?.map((event, i) => (
           <Box xs={12} md={12} key={i}>
-            <Card sx={{ maxWidth: 360, padding: "10px" }}>
+            <Card sx={{ maxWidth: 350, padding: "10px", height: "100%" }}>
               <CardMedia
                 sx={{ height: 150 }}
                 image={event.image}
@@ -127,7 +127,10 @@ const upcomingEvents = ({ homepage }) => {
                 </Typography>
               </CardContent>
               <CardActions
-                sx={{ display: "flex", justifyContent: "space-between" }}
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                }}
               >
                 <Link to={`/dashboard/payment/${event._id}`}>
                   <Button
@@ -149,8 +152,8 @@ const upcomingEvents = ({ homepage }) => {
             </Card>
           </Box>
         ))}
-        {/* add event  */}
       </Box>
+      {/* add event  */}
       {loggedUser?.status === "admin" && !homepage && (
         <Box textAlign="center">
           <AddEvent />

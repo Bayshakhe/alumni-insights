@@ -168,7 +168,7 @@ const AllStudents = () => {
         direction="row"
         justifyContent="space-between"
         alignItems="center"
-        mb={1}
+        my={1}
       >
         {/* search by text */}
         <FormControl variant="outlined">
