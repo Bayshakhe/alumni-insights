@@ -159,9 +159,9 @@ const AllStudents = () => {
 
   return (
     <Box
-      minHeight="94vh"
+      maxHeight="94vh"
       width="100%"
-      sx={{ margin: "20px", overflowY: "scroll" }}
+      sx={{ margin: "20px", overflow: "scroll" }}
     >
       {/* search field */}
       <Stack

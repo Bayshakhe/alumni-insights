@@ -1,4 +1,5 @@
 import {
+  Dashboard,
   EventAvailable,
   Group,
   Payments,
@@ -15,7 +16,8 @@ import { Link } from "react-router-dom";
 
 const AdminRoute = () => {
   const studentRoute = [
-    { label: "All Alumni", path: "/dashboard", icon: <Group /> },
+    { label: "Dashboard", path: "/dashboard", icon: <Dashboard /> },
+    { label: "All Alumni", path: "/dashboard/allAlumni", icon: <Group /> },
     { label: "All Students", path: "/dashboard/allStudents", icon: <Group /> },
     {
       label: "Upcoming Events",

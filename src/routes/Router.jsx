@@ -38,6 +38,10 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/dashboard",
+        element: <div>ehllluybinom</div>,
+      },
+      {
+        path: "/dashboard/allAlumni",
         element: (
           <PrivateRoute>
             <AllAlumni />
