@@ -12,6 +12,7 @@ import HomepageLayout from "../layouts/HomepageLayout";
 import AlumniPage from "../pages/AlumniPage";
 import PaymentHistory from "../pages/DashboardPage/PaymentHistory/PaymentHistory";
 import AllPaymentHistory from "../pages/DashboardPage/PaymentHistory/AllPaymentHistory";
+import AdminDashboard from "../pages/DashboardPage/Dashboard/AdminDashboard";
 
 const router = createBrowserRouter([
   {
@@ -37,11 +38,11 @@ const router = createBrowserRouter([
     ),
     children: [
       {
-        path: "/dashboard",
-        element: <div>ehllluybinom</div>,
+        path: "admin/dashboard",
+        element: <AdminDashboard />,
       },
       {
-        path: "/dashboard/allAlumni",
+        path: "allAlumni",
         element: (
           <PrivateRoute>
             <AllAlumni />
@@ -49,15 +50,15 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/dashboard/allStudents",
+        path: "allStudents",
         element: <AllStudents />,
       },
       {
-        path: "/dashboard/upcomingEvents",
+        path: "upcomingEvents",
         element: <UpcomingEvents />,
       },
       {
-        path: "/dashboard/payment/:id",
+        path: "payment/:id",
         element: (
           <PrivateRoute>
             <Payment />
@@ -65,11 +66,11 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/dashboard/paymentHistory",
+        path: "paymentHistory",
         element: <PaymentHistory />,
       },
       {
-        path: "/dashboard/allPaymentHistory",
+        path: "allPaymentHistory",
         element: <AllPaymentHistory />,
       },
     ],

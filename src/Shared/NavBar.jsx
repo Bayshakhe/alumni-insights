@@ -47,11 +47,15 @@ const NavBar = () => {
         <Link to="/">
           <Button sx={{ color: "white" }}>Home</Button>
         </Link>
-        {loggedUser && (
-          <Link to="/dashboard">
-            <Button sx={{ color: "white" }}>Dashboard</Button>
-          </Link>
-        )}
+        <Link
+          to={`${
+            loggedUser?.status !== "admin"
+              ? "/dashboard/allAlumni"
+              : "/dashboard/admin/dashboard"
+          }`}
+        >
+          <Button sx={{ color: "white" }}>Dashboard</Button>
+        </Link>
         <Link to="/alumni">
           <Button sx={{ color: "white" }}>All Alumni</Button>
         </Link>
@@ -125,16 +129,16 @@ const NavBar = () => {
             <Link to="/">
               <Button sx={{ color: "#309576" }}>Home</Button>
             </Link>
-            {loggedUser?.status !== "admin" && (
-              <Link to="/dashboard/allAlumni">
-                <Button sx={{ color: "#309576" }}>Dashboard</Button>
-              </Link>
-            )}
-            {loggedUser?.status === "admin" && (
-              <Link to="/dashboard">
-                <Button sx={{ color: "#309576" }}>Dashboard</Button>
-              </Link>
-            )}
+            {/* {loggedUser?.status !== "admin" && ( */}
+            <Link
+              to={`${
+                loggedUser?.status !== "admin"
+                  ? "/dashboard/allAlumni"
+                  : "/dashboard/admin/dashboard"
+              }`}
+            >
+              <Button sx={{ color: "#309576" }}>Dashboard</Button>
+            </Link>
             <Button sx={{ color: "#309576" }}>Blog</Button>
 
             <Avatar

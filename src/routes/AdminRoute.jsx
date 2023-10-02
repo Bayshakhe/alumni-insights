@@ -16,7 +16,11 @@ import { Link } from "react-router-dom";
 
 const AdminRoute = () => {
   const studentRoute = [
-    { label: "Dashboard", path: "/dashboard", icon: <Dashboard /> },
+    {
+      label: "Dashboard",
+      path: "/dashboard/admin/dashboard",
+      icon: <Dashboard />,
+    },
     { label: "All Alumni", path: "/dashboard/allAlumni", icon: <Group /> },
     { label: "All Students", path: "/dashboard/allStudents", icon: <Group /> },
     {
