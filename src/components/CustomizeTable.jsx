@@ -20,8 +20,6 @@ import useLoggedUser from "../hooks/useLoggedUser";
 import {
   useDeleteStudentMutation,
   useGetAllStudentsQuery,
-  useMakeAdminMutation,
-  useRemoveAdminMutation,
 } from "../redux/services/studentsService";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
@@ -31,6 +29,7 @@ import {
   PersonOff,
   Search,
 } from "@mui/icons-material";
+import useAdminOperation from "../hooks/useAdminOperation";
 
 const CustomizeTable = ({ allStudent, adminData, alumni }) => {
   const { loggedUser } = useLoggedUser();
@@ -44,8 +43,7 @@ const CustomizeTable = ({ allStudent, adminData, alumni }) => {
   const [filterByDepartment, setFilterByDepartment] = useState("");
   const [filterByJobStatus, setFilterByJobStatus] = useState("All");
   const [deleteStudent, { data: dD, isSuccess }] = useDeleteStudentMutation();
-  const [makeAdmin] = useMakeAdminMutation();
-  const [removeAdmin] = useRemoveAdminMutation();
+  const handleAdminOperation = useAdminOperation();
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -161,71 +159,11 @@ const CustomizeTable = ({ allStudent, adminData, alumni }) => {
   };
 
   const handleMakeAdmin = (id, name) => {
-    const makeAdminAsync = async () => {
-      try {
-        const res = await makeAdmin(id);
-        console.log(res);
-        if (res?.data?.modifiedCount > 0) {
-          Swal.fire("Done!", `${name} is now an Admin`, "success");
-          refetch();
-        }
-      } catch (error) {
-        console.error(error);
-        Swal.fire(
-          "Error",
-          "An error occurred while making the student an admin",
-          "error"
-        );
-      }
-    };
-
-    Swal.fire({
-      title: "Make admin this student?",
-      showCancelButton: true,
-      confirmButtonText: "Yes, make it!",
-      cancelButtonText: "No, cancel!",
-      reverseButtons: true,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        makeAdminAsync(); // Call the async function here
-      } else if (result.dismiss === Swal.DismissReason.cancel) {
-        Swal.fire("Cancelled", "", "error");
-      }
-    });
+    handleAdminOperation(id, name, "makeAdmin", refetch);
   };
 
   const handleRemoveAdmin = (id, name) => {
-    const removeAdminAsync = async () => {
-      try {
-        const res = await removeAdmin(id);
-        console.log(res);
-        if (res?.data?.modifiedCount > 0) {
-          Swal.fire("Done!", `${name} is removed`, "success");
-          refetch();
-        }
-      } catch (error) {
-        console.error(error);
-        Swal.fire(
-          "Error",
-          "An error occurred while making the student an admin",
-          "error"
-        );
-      }
-    };
-
-    Swal.fire({
-      title: "Remove from admin panel?",
-      showCancelButton: true,
-      confirmButtonText: "Yes, make it!",
-      cancelButtonText: "No, cancel!",
-      reverseButtons: true,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        removeAdminAsync(); // Call the async function here
-      } else if (result.dismiss === Swal.DismissReason.cancel) {
-        Swal.fire("Cancelled", "", "error");
-      }
-    });
+    handleAdminOperation(id, name, "removeAdmin", refetch);
   };
 
   useEffect(() => {
@@ -342,78 +280,6 @@ const CustomizeTable = ({ allStudent, adminData, alumni }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {/* {adminData
-              ? adminData?.map((row) => (
-                  <TableRow
-                    key={row._id}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                  >
-                    <TableCell>
-                      <Avatar alt={row.firstName} src={row.photo} />
-                    </TableCell>
-                    <TableCell component="th" scope="row">
-                      {row.firstName + " "}
-                      {row.lastName}
-                    </TableCell>
-                    <TableCell>{row?.department}</TableCell>
-                    <TableCell>{row?.jobInfo?.companyName || "N/A"}</TableCell>
-                    <TableCell>{row?.jobInfo?.designation || "N/A"}</TableCell>
-                    <TableCell>{row?.jobInfo?.jobLocation || "N/A"}</TableCell>
-                    {loggedUser ? (
-                      <>
-                        <TableCell>{row.email}</TableCell>
-                        <TableCell>{row.phone}</TableCell>
-                      </>
-                    ) : (
-                      <>
-                        <TableCell></TableCell>
-                        <TableCell></TableCell>
-                      </>
-                    )} */}
-            {/* {adminData && (
-                      <TableCell
-                        sx={{ display: "flex", justifyContent: "center" }}
-                      >
-                        <IconButton
-                          onClick={() =>
-                            handleRemoveAdmin(row?._id, row?.firstName)
-                          }
-                        >
-                          <PersonOff sx={{ color: "#309576" }} />
-                        </IconButton>
-
-                        <IconButton
-                          onClick={() => handleDelete(row?._id)}
-                          color=""
-                        >
-                          <DeleteForever color="error" />
-                        </IconButton>
-                      </TableCell>
-                    )}
-                    {allStudent && (
-                      <TableCell
-                        sx={{ display: "flex", justifyContent: "center" }}
-                      >
-                        <IconButton
-                          onClick={() =>
-                            handleMakeAdmin(row?._id, row?.firstName)
-                          }
-                        >
-                          <AdminPanelSettingsOutlined
-                            sx={{ color: "#309576" }}
-                          />
-                        </IconButton>
-
-                        <IconButton
-                          onClick={() => handleDelete(row?._id)}
-                          color=""
-                        >
-                          <DeleteForever color="error" />
-                        </IconButton>
-                      </TableCell>
-                    )}
-                  </TableRow>
-                )) */}
             {filteredData?.map((row) => (
               <TableRow
                 key={row._id}
@@ -440,6 +306,21 @@ const CustomizeTable = ({ allStudent, adminData, alumni }) => {
                     <TableCell></TableCell>
                     <TableCell></TableCell>
                   </>
+                )}
+                {adminData && (
+                  <TableCell sx={{ display: "flex", justifyContent: "center" }}>
+                    <IconButton
+                      onClick={() =>
+                        handleRemoveAdmin(row?._id, row?.firstName)
+                      }
+                    >
+                      <PersonOff sx={{ color: "#309576" }} />
+                    </IconButton>
+
+                    <IconButton onClick={() => handleDelete(row?._id)} color="">
+                      <DeleteForever color="error" />
+                    </IconButton>
+                  </TableCell>
                 )}
                 {allStudent && (
                   <TableCell sx={{ display: "flex", justifyContent: "center" }}>
