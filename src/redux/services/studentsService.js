@@ -22,9 +22,16 @@ export const studentsService = createApi({
     // update students
     updateStudent: builder.mutation({
       query: ({ _id, ...data }) => ({
-        url: `/allStudents/${_id}`,
+        url: `/updateProfile/${_id}`,
         method: "PUT",
         body: data,
+      }),
+    }),
+    // make admin
+    makeAdmin: builder.mutation({
+      query: (id) => ({
+        url: `/makeAdmin/${id}`,
+        method: "PUT",
       }),
     }),
     // delete students
@@ -43,4 +50,5 @@ export const {
   useGetSingleStudentQuery,
   useUpdateStudentMutation,
   useDeleteStudentMutation,
+  useMakeAdminMutation,
 } = studentsService;

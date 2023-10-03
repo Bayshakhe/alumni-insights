@@ -16,12 +16,17 @@ import {
   TableRow,
   TextField,
 } from "@mui/material";
-import { Delete, Search } from "@mui/icons-material";
+import {
+  AdminPanelSettingsOutlined,
+  Delete,
+  Search,
+} from "@mui/icons-material";
 import useLoggedUser from "../../../hooks/useLoggedUser";
 import UpdateStudent from "./UpdateStudent";
 import {
   useDeleteStudentMutation,
   useGetAllStudentsQuery,
+  useMakeAdminMutation,
 } from "../../../redux/services/studentsService";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
@@ -38,26 +43,8 @@ const AllStudents = () => {
   const [filterByDepartment, setFilterByDepartment] = useState("");
   const [filterByJobStatus, setFilterByJobStatus] = useState("All");
   const [deleteStudent, { data: dD, isSuccess }] = useDeleteStudentMutation();
+  const [makeAdmin] = useMakeAdminMutation();
 
-  // useEffect(() => {
-  //   if (data) {
-  //     if (searchText) {
-  //       let filtered = filteredData?.filter((row) =>
-  //         row?.firstName.toLowerCase().includes(searchText.toLowerCase())
-  //       );
-  //       console.log(filtered);
-  //     }
-
-  //     const newFilteredData = [...data]?.filter((e) => e.status !== "admin");
-  //     if (newFilteredData) {
-  //       setFilteredData(newFilteredData);
-  //     }
-  //   }
-  // }, [data, searchText]);
-
-  // console.log({ filteredData, rows });
-
-  // console.log(loggedUser);
   const handleDelete = (id) => {
     Swal.fire({
       title: "Delete this student?",
@@ -150,6 +137,40 @@ const AllStudents = () => {
     }
   };
 
+  const handleMakeAdmin = (id, name) => {
+    const makeAdminAsync = async () => {
+      try {
+        const res = await makeAdmin(id);
+        console.log(res);
+        if (res?.data?.modifiedCount > 0) {
+          Swal.fire("Done!", `${name} is now an Admin`, "success");
+          refetch();
+        }
+      } catch (error) {
+        console.error(error);
+        Swal.fire(
+          "Error",
+          "An error occurred while making the student an admin",
+          "error"
+        );
+      }
+    };
+
+    Swal.fire({
+      title: "Make admin this student?",
+      showCancelButton: true,
+      confirmButtonText: "Yes, make it!",
+      cancelButtonText: "No, cancel!",
+      reverseButtons: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        makeAdminAsync(); // Call the async function here
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire("Cancelled", "", "error");
+      }
+    });
+  };
+
   useEffect(() => {
     if (isSuccess) {
       toast.success("Successfully Deleted User.");
@@ -161,7 +182,7 @@ const AllStudents = () => {
     <Box
       maxHeight="94vh"
       width="100%"
-      sx={{ margin: "20px", overflow: "scroll" }}
+      sx={{ padding: "20px", overflow: "scroll" }}
     >
       {/* search field */}
       <Stack
@@ -182,8 +203,8 @@ const AllStudents = () => {
             }
           />
         </FormControl>
-        {/* filterByDepartment */}
         <Stack direction="row" spacing={1}>
+          {/* filter By Job Status */}
           <TextField
             sx={{ minWidth: { xs: "150px", md: "200px" } }}
             select
@@ -195,6 +216,7 @@ const AllStudents = () => {
             <MenuItem value="Yes">Yes</MenuItem>
             <MenuItem value="No">No</MenuItem>
           </TextField>
+          {/* filter By Department */}
           <TextField
             sx={{ minWidth: { xs: "150px", md: "200px" } }}
             select
@@ -282,9 +304,15 @@ const AllStudents = () => {
                     <TableCell>{row.phone}</TableCell>
                   </>
                 )}
-                <TableCell sx={{ display: "flex" }}>
-                  <IconButton color="primary">
+                <TableCell sx={{ display: "flex", justifyContent: "center" }}>
+                  {/* <IconButton color="primary">
                     <UpdateStudent id={row?._id} student={row} />
+                  </IconButton> */}
+
+                  <IconButton
+                    onClick={() => handleMakeAdmin(row?._id, row?.firstName)}
+                  >
+                    <AdminPanelSettingsOutlined sx={{ color: "#309576" }} />
                   </IconButton>
 
                   <IconButton onClick={() => handleDelete(row?._id)} color="">
