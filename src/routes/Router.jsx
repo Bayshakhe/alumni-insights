@@ -14,6 +14,7 @@ import PaymentHistory from "../pages/DashboardPage/PaymentHistory/PaymentHistory
 import AllPaymentHistory from "../pages/DashboardPage/PaymentHistory/AllPaymentHistory";
 import AdminDashboard from "../pages/DashboardPage/Dashboard/AdminDashboard";
 import Profile from "../pages/ProfilePage/Profile";
+import AdminPanel from "../pages/DashboardPage/AdminPanel";
 
 const router = createBrowserRouter([
   {
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
       {
         path: "admin/dashboard",
         element: <AdminDashboard />,
+      },
+      {
+        path: "adminPanel",
+        element: <AdminPanel />,
       },
       {
         path: "allAlumni",

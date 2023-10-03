@@ -34,6 +34,13 @@ export const studentsService = createApi({
         method: "PUT",
       }),
     }),
+    // remove admin
+    removeAdmin: builder.mutation({
+      query: (id) => ({
+        url: `/removeAdmin/${id}`,
+        method: "PUT",
+      }),
+    }),
     // delete students
     deleteStudent: builder.mutation({
       query: (id) => ({
@@ -51,4 +58,5 @@ export const {
   useUpdateStudentMutation,
   useDeleteStudentMutation,
   useMakeAdminMutation,
+  useRemoveAdminMutation,
 } = studentsService;

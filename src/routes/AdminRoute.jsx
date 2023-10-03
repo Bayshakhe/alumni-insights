@@ -1,4 +1,5 @@
 import {
+  AdminPanelSettings,
   Dashboard,
   EventAvailable,
   Group,
@@ -20,6 +21,11 @@ const AdminRoute = () => {
       label: "Dashboard",
       path: "/dashboard/admin/dashboard",
       icon: <Dashboard />,
+    },
+    {
+      label: "Admin Panel",
+      path: "/dashboard/adminPanel",
+      icon: <AdminPanelSettings />,
     },
     { label: "All Alumni", path: "/dashboard/allAlumni", icon: <Group /> },
     { label: "All Students", path: "/dashboard/allStudents", icon: <Group /> },

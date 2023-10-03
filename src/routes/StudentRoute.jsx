@@ -21,7 +21,7 @@ const StudentRoute = () => {
       path: "/dashboard/upcomingEvents",
       icon: <EventAvailable />,
     },
-    { label: "Payment", path: "/dashboard/payment/:price", icon: <Payments /> },
+    // { label: "Payment", path: "/dashboard/payment/:price", icon: <Payments /> },
     {
       label: "Payment History",
       path: "/dashboard/paymentHistory",
