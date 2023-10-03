@@ -22,7 +22,7 @@ import toast from "react-hot-toast";
 
 const RegisterPage = () => {
   const [postRegisterStudent] = usePostRegisterStudentMutation();
-  const [jobStatus, setJobStatus] = useState(false);
+  const [jobStatus, setJobStatus] = useState("Yes");
   const [department, setDepartment] = useState();
   const navigate = useNavigate();
   const {
@@ -35,6 +35,7 @@ const RegisterPage = () => {
   } = useForm({ resolver: yupResolver(schema) });
 
   const handleJobStatus = (event) => {
+    // console.log(event.target.value);
     setJobStatus(event.target.value);
   };
   const handleDepartment = (event) => {
@@ -42,8 +43,14 @@ const RegisterPage = () => {
   };
 
   const handleFormData = async (data) => {
+    if (data?.jobStatus === "Yes") {
+      data.jobStatus = true;
+    } else {
+      data.jobStatus = false;
+    }
+    // console.log(data);
     const response = await postRegisterStudent(data);
-    console.log(response);
+    // console.log(response);
     if (response?.data?.acknowledged) {
       toast.success("Register successful.");
       // console.log(response.data);
@@ -165,7 +172,7 @@ const RegisterPage = () => {
                     {...field}
                     {...register("department")}
                     select
-                    value={department}
+                    value={department || ""}
                     label="Department"
                     onChange={handleDepartment}
                     error={!!error}
@@ -201,14 +208,14 @@ const RegisterPage = () => {
                     onChange={handleJobStatus}
                     fullWidth
                   >
-                    <MenuItem value={true}>Yes</MenuItem>
-                    <MenuItem value={false}>No</MenuItem>
+                    <MenuItem value="Yes">Yes</MenuItem>
+                    <MenuItem value="No">No</MenuItem>
                   </TextField>
                 )}
               />
             </Grid>
 
-            {jobStatus && (
+            {jobStatus === "Yes" && (
               <>
                 {/* company name field */}
                 <Grid item xs={12} md={6}>
@@ -217,7 +224,7 @@ const RegisterPage = () => {
                     control={control}
                     type="text"
                     label="Company Name"
-                    jobStatus={jobStatus}
+                    jobStatus={jobStatus === "Yes"}
                   />
                 </Grid>
                 {/* designation field */}
@@ -227,7 +234,7 @@ const RegisterPage = () => {
                     control={control}
                     type="text"
                     label="Designation"
-                    jobStatus={jobStatus}
+                    jobStatus={jobStatus === "Yes"}
                   />
                 </Grid>
                 {/* job location field */}
@@ -237,7 +244,7 @@ const RegisterPage = () => {
                     control={control}
                     type="text"
                     label="Job Location"
-                    jobStatus={jobStatus}
+                    jobStatus={jobStatus === "Yes"}
                   />
                 </Grid>
               </>

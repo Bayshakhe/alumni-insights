@@ -70,12 +70,14 @@ const NavBar = () => {
           display: { xs: "none", md: "flex" },
         }}
       >
-        <Avatar
-          alt={loggedUser?.firstName}
-          src={loggedUser?.photo}
-          title={loggedUser?.firstName}
-          // sx={{ width: 60, height: 60, margin: "15px auto 5px" }}
-        />
+        <Link to={`/profile/${loggedUser?._id}`}>
+          <Avatar
+            alt={loggedUser?.firstName}
+            src={loggedUser?.photo}
+            title={loggedUser?.firstName}
+            // sx={{ width: 60, height: 60, margin: "15px auto 5px" }}
+          />
+        </Link>
 
         {loggedUser ? (
           <Button
@@ -139,14 +141,20 @@ const NavBar = () => {
             >
               <Button sx={{ color: "#309576" }}>Dashboard</Button>
             </Link>
+
+            <Link to="/alumni">
+              <Button sx={{ color: "#309576" }}>All Alumni</Button>
+            </Link>
             <Button sx={{ color: "#309576" }}>Blog</Button>
 
-            <Avatar
-              alt={loggedUser?.firstName}
-              src={loggedUser?.photo}
-              title={loggedUser?.firstName}
-              sx={{ margin: "0 auto 5px" }}
-            />
+            <Link to={`/profile/${loggedUser?._id}`}>
+              <Avatar
+                alt={loggedUser?.firstName}
+                src={loggedUser?.photo}
+                title={loggedUser?.firstName}
+                sx={{ margin: "0 auto 5px" }}
+              />
+            </Link>
 
             {loggedUser ? (
               <Button

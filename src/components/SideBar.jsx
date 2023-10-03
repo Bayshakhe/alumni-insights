@@ -32,17 +32,21 @@ const SideBar = () => {
     >
       <List>
         {/* title */}
-        <Typography color="white" variant="h5" align="center" my={1}>
-          Alumni Insights
-        </Typography>
+        <Link to="/">
+          <Typography color="white" variant="h5" align="center" my={1}>
+            Alumni Insights
+          </Typography>
+        </Link>
 
         {/* user image */}
-        <Avatar
-          alt={loggedUser?.firstName}
-          src={loggedUser?.photo}
-          title={loggedUser?.firstName}
-          sx={{ width: 60, height: 60, margin: "15px auto 5px" }}
-        />
+        <Link to={`/profile/${loggedUser?._id}`}>
+          <Avatar
+            alt={loggedUser?.firstName}
+            src={loggedUser?.photo}
+            title={loggedUser?.firstName}
+            sx={{ width: 60, height: 60, margin: "15px auto 5px" }}
+          />
+        </Link>
 
         {/* user name */}
         {loggedUser && (

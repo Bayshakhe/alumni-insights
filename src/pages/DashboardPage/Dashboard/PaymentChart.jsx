@@ -49,7 +49,7 @@ const PaymentChart = () => {
   };
 
   return (
-    <Stack direction="row" alignItems="center">
+    <Stack sx={{ border: "1px solid", width: "auto" }}>
       <PieChart
         series={[
           {

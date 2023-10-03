@@ -13,6 +13,7 @@ import AlumniPage from "../pages/AlumniPage";
 import PaymentHistory from "../pages/DashboardPage/PaymentHistory/PaymentHistory";
 import AllPaymentHistory from "../pages/DashboardPage/PaymentHistory/AllPaymentHistory";
 import AdminDashboard from "../pages/DashboardPage/Dashboard/AdminDashboard";
+import Profile from "../pages/ProfilePage/Profile";
 
 const router = createBrowserRouter([
   {
@@ -24,8 +25,12 @@ const router = createBrowserRouter([
         element: <HomePage />,
       },
       {
-        path: "/alumni",
+        path: "alumni",
         element: <AlumniPage />,
+      },
+      {
+        path: "profile/:id",
+        element: <Profile />,
       },
     ],
   },
