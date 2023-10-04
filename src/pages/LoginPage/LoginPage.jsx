@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import CustomTextField from "../../components/CustomTextField";
 import { baseUrl } from "../../helper/baseUrl";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { usePostLoginStudentMutation } from "../../redux/services/authServices";
 
@@ -13,6 +13,10 @@ const Login = () => {
   const [postLoginStudent] = usePostLoginStudentMutation();
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
+  console.log({ location, from });
+  const intendedPathname = localStorage.getItem("intendedPathname");
 
   const handleFormData = async (data) => {
     const response = await postLoginStudent(data);
@@ -23,7 +27,12 @@ const Login = () => {
       localStorage.setItem("id", response?.data?._id);
       toast.success("WELCOME");
       setError("");
-      navigate("/");
+      if (intendedPathname) {
+        navigate(intendedPathname);
+        localStorage.removeItem("intendedPathname"); // Remove it from storage
+      } else {
+        navigate("/"); // Redirect to a default route if no intended pathname is saved
+      }
     }
   };
   return (

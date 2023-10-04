@@ -154,7 +154,7 @@ const CustomizeTable = ({ allStudent, adminData, alumni }) => {
       setFilteredData(filtered);
     }
   };
-
+  // filter by job status function
   const searchByJobStatus = () => {
     const jobStatusTrue = rows?.filter((row) => row?.jobStatus === true);
     const jobStatusFalse = rows?.filter((row) => row?.jobStatus === "false");
@@ -174,11 +174,11 @@ const CustomizeTable = ({ allStudent, adminData, alumni }) => {
       setFilterByJobStatus(e.target.value);
     }
   };
-
+  // make admin
   const handleMakeAdmin = (id, name) => {
     handleAdminOperation(id, name, "makeAdmin", refetch);
   };
-
+  // remove admin
   const handleRemoveAdmin = (id, name) => {
     handleAdminOperation(id, name, "removeAdmin", refetch);
   };
