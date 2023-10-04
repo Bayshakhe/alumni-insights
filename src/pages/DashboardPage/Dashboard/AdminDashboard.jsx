@@ -35,21 +35,25 @@ const Dashboard = () => {
           icon={<People fontSize="large" />}
           text="All Students"
           count={allStudents?.length}
+          color="#2e96ff"
         />
         <DashboardCountingCard
           icon={<Diamond fontSize="large" />}
           text="All Alumni"
           count={allAlumni?.length}
+          color="#b800d8"
         />
         <DashboardCountingCard
           icon={<Payments fontSize="large" />}
           text="Total Paid Amount"
           count={totalAmount + " " + "Tk"}
+          color="#375899"
         />
         <DashboardCountingCard
           icon={<BookOnline fontSize="large" />}
           text="Available Ticket"
           count={totalAvailableTickets}
+          color="#02b2af"
         />
       </Grid>
 

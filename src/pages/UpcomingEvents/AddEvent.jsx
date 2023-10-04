@@ -59,6 +59,7 @@ const AddEvent = () => {
       <Button
         variant="contained"
         sx={{
+          marginTop: "40px",
           backgroundColor: "#309576",
           "&:hover": { background: "#546e7a" },
         }}

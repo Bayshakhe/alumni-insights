@@ -59,6 +59,12 @@ const upcomingEvents = ({ homepage }) => {
 
   return (
     <Stack>
+      {/* add event  */}
+      {loggedUser?.status === "admin" && !homepage && (
+        <Box textAlign="center">
+          <AddEvent />
+        </Box>
+      )}
       <Box
         m={5}
         sx={{
@@ -153,12 +159,6 @@ const upcomingEvents = ({ homepage }) => {
           </Box>
         ))}
       </Box>
-      {/* add event  */}
-      {loggedUser?.status === "admin" && !homepage && (
-        <Box textAlign="center">
-          <AddEvent />
-        </Box>
-      )}
     </Stack>
   );
 };

@@ -1,15 +1,16 @@
 import { Box, Grid, Typography } from "@mui/material";
 import React from "react";
 
-const DashboardCountingCard = ({ icon, count, text }) => {
+const DashboardCountingCard = ({ icon, count, text, color }) => {
   return (
     <Grid item xs={12} sm={6} md={3}>
       <Box
         display="flex"
         justifyContent="space-between"
         alignItems="center"
-        border="2px solid #309576"
-        color="#309576"
+        border="1px solid #309576"
+        bgcolor={color}
+        color="white"
         padding={3}
         // transition="background-color 0.3s ease"
         borderRadius="8px"
