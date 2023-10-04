@@ -10,6 +10,7 @@ const CustomTextField = ({
   marginB,
   jobStatus,
   defaultValues,
+  handleImg,
 }) => {
   return (
     <Controller
@@ -28,6 +29,7 @@ const CustomTextField = ({
             error={!!error}
             helperText={error?.message}
             sx={{ marginBottom: marginB }}
+            // onChange={handleImg}
           />
           {/* {
             error && <Typography variant="body2" color="error" align="left">{error?.message}ecrtvbyun</Typography>

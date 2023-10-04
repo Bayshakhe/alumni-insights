@@ -1,4 +1,4 @@
-import { AccountCircle } from "@mui/icons-material";
+import { AccountCircle, CloudUpload } from "@mui/icons-material";
 import {
   Box,
   Button,
@@ -25,6 +25,7 @@ const RegisterPage = () => {
   const [jobStatus, setJobStatus] = useState("Yes");
   const [department, setDepartment] = useState();
   const navigate = useNavigate();
+  const [img, setImg] = useState();
   const {
     handleSubmit,
     control,
@@ -42,22 +43,39 @@ const RegisterPage = () => {
     setDepartment(event.target.value);
   };
 
+  const handleImg = (e) => {
+    // console.log(e.target.files[0]);
+    const data = new FormData();
+    data.append("file", e.target.files[0]);
+    data.append("upload_preset", "yrpcd6rd");
+    data.append("cloud_name", "dpfh92onc");
+
+    fetch("https://api.cloudinary.com/v1_1/dpfh92onc/image/upload", {
+      method: "POST",
+      body: data,
+    })
+      .then((res) => res.json())
+      .then((data) => setImg(data?.url))
+      .catch((err) => console.log(err));
+  };
+
   const handleFormData = async (data) => {
     if (data?.jobStatus === "Yes") {
       data.jobStatus = true;
     } else {
       data.jobStatus = false;
     }
-    // console.log(data);
+    if (img) {
+      data.photo = img;
+    }
+    console.log(data);
     const response = await postRegisterStudent(data);
     // console.log(response);
     if (response?.data?.acknowledged) {
       toast.success("Register successful.");
-      // console.log(response.data);
       navigate("/login");
     } else {
       toast("Already registered. Please Login.");
-      // console.log(response.data);
       navigate("/login");
     }
   };
@@ -154,13 +172,41 @@ const RegisterPage = () => {
               />
             </Grid>
             {/* Photo field */}
+            {/* <Button
+              component="label"
+              variant="outlined"
+              startIcon={<CloudUpload />}
+            >
+              Upload file
+              <VisuallyHiddenInput type="file" />
+            </Button> */}
             <Grid item xs={12} md={6}>
-              <CustomTextField
+              <Controller
                 name="photo"
                 control={control}
-                type="url"
-                label="Photo"
+                render={({ field, fieldState: { error } }) => (
+                  <>
+                    <TextField
+                      {...field}
+                      fullWidth
+                      type="file"
+                      variant="outlined"
+                      label="Photo"
+                      error={!!error}
+                      helperText={error?.message}
+                      sx={{ marginBottom: "auto" }}
+                      onChange={handleImg}
+                    />
+                  </>
+                )}
               />
+              {/* <CustomTextField
+                name="photo"
+                control={control}
+                type="file"
+                label="Photo"
+                handleImg={handleImg}
+              /> */}
             </Grid>
             {/* Department field */}
             <Grid item xs={12} md={6} mt={2}>

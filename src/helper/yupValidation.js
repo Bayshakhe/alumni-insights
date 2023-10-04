@@ -21,7 +21,7 @@ const schema = yup.object({
     .max(11)
     .required("This field is required"),
   department: yup.string().required("Please select a department"),
-  photo: yup.string().url().required("This field is required"),
+  // photo: yup.string().required("This field is required"),
   //   jobInfo: yup.object({
   //     companyName: yup.string().required("This field is required"),
   //     designation: yup.string().required("This field is required"),
