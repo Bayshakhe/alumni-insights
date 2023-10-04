@@ -45,6 +45,7 @@ const CustomizeTable = ({ allStudent, adminData, alumni }) => {
   const [deleteStudent, { data: dD, isSuccess }] = useDeleteStudentMutation();
   const handleAdminOperation = useAdminOperation();
 
+  // delete student
   const handleDelete = (id) => {
     Swal.fire({
       title: "Delete this student?",
@@ -81,14 +82,23 @@ const CustomizeTable = ({ allStudent, adminData, alumni }) => {
     if (filterByJobStatus) {
       searchByJobStatus();
     }
+    // when alumni call this table this function will execute
     if (alumni) {
       let filtered = [];
       const students = rows?.filter((e) => e.jobStatus === true);
       setFilteredData(students);
       if (searchText) {
-        filtered = students?.filter((row) =>
-          row?.firstName.toLowerCase().includes(searchText.toLowerCase())
-        );
+        filtered = rows?.filter((row) => {
+          const firstName = row?.firstName || "";
+          const companyName = row?.companyName || "";
+          const email = row?.email || "";
+
+          return (
+            firstName.toLowerCase().includes(searchText.toLowerCase()) ||
+            companyName.toLowerCase().includes(searchText.toLowerCase()) ||
+            email.toLowerCase().includes(searchText.toLowerCase())
+          );
+        });
         setFilteredData(filtered);
       }
       if (filterByDepartment) {
@@ -98,6 +108,7 @@ const CustomizeTable = ({ allStudent, adminData, alumni }) => {
         setFilteredData(filtered);
       }
     }
+    // when admin route call this table this function will execute
     if (adminData) {
       const admins = rows?.filter((e) => e.status === "admin");
       setFilteredData(admins);
@@ -107,7 +118,6 @@ const CustomizeTable = ({ allStudent, adminData, alumni }) => {
   const handleSearch = (e) => {
     setSearchText(e.target.value);
   };
-
   const handleDepartment = (e) => {
     if (e.target.value === "All") {
       setFilterByDepartment("");
@@ -119,11 +129,18 @@ const CustomizeTable = ({ allStudent, adminData, alumni }) => {
   // search by text function
   const searchByText = () => {
     let filtered = [];
-    // const filtered = rows?.filter(row => row.firstName || row.department || row?.jobInfo?.companyName || row?.jobInfo?.designation || row?.jobInfo?.jobLocation || row.email || row.phone.toLowarCase().incl)
     if (searchText) {
-      filtered = rows?.filter((row) =>
-        row?.firstName.toLowerCase().includes(searchText.toLowerCase())
-      );
+      filtered = rows?.filter((row) => {
+        const firstName = row?.firstName || "";
+        const companyName = row?.companyName || "";
+        const email = row?.email || "";
+
+        return (
+          firstName.toLowerCase().includes(searchText.toLowerCase()) ||
+          companyName.toLowerCase().includes(searchText.toLowerCase()) ||
+          email.toLowerCase().includes(searchText.toLowerCase())
+        );
+      });
       setFilteredData(filtered);
     }
   };

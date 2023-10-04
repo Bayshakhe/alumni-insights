@@ -3,6 +3,7 @@ import useLoggedUser from "../hooks/useLoggedUser";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { LinearProgress, Stack } from "@mui/material";
+import Loading from "../components/Loading";
 
 const PrivateRoute = ({ children }) => {
   const { loggedUser, isError } = useLoggedUser();
@@ -14,11 +15,7 @@ const PrivateRoute = ({ children }) => {
   } else if (loggedUser) {
     return children;
   } else {
-    return (
-      <Stack sx={{ width: "100%", color: "grey.500" }} spacing={2}>
-        <LinearProgress color="secondary" />
-      </Stack>
-    );
+    return <Loading />;
   }
 };
 
