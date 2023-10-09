@@ -8,6 +8,7 @@ import {
   Grid,
   Paper,
   TextField,
+  Typography,
 } from "@mui/material";
 import React, { useState } from "react";
 import CustomTextField from "../../components/CustomTextField";
@@ -23,6 +24,7 @@ const AddEvent = () => {
   //   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const { refetch } = useGetUpcomingEventsQuery();
+  const [img, setImg] = useState();
 
   //   const handleDepartment = (event) => {
   //     setDepartment(event.target.value);
@@ -42,8 +44,27 @@ const AddEvent = () => {
     formState: { errors },
   } = useForm();
 
+  const handleImg = (e) => {
+    // console.log(e.target.files[0]);
+    const data = new FormData();
+    data.append("file", e?.target?.files[0]);
+    data.append("upload_preset", "yrpcd6rd");
+    data.append("cloud_name", "dpfh92onc");
+
+    fetch("https://api.cloudinary.com/v1_1/dpfh92onc/image/upload", {
+      method: "POST",
+      body: data,
+    })
+      .then((res) => res.json())
+      .then((data) => setImg(data?.url))
+      .catch((err) => console.log(err));
+  };
+
   const handleFormData = async (data) => {
     console.log(data);
+    if (img) {
+      data.image = img;
+    }
     const response = await addEvent(data);
     console.log(response.data);
     if (response?.data?.insertedId) {
@@ -117,7 +138,7 @@ const AddEvent = () => {
                   <CustomTextField
                     name="heldOn"
                     control={control}
-                    type="text"
+                    type="date"
                     label="Held on"
                   />
                 </Grid>
@@ -126,7 +147,7 @@ const AddEvent = () => {
                   <CustomTextField
                     name="time"
                     control={control}
-                    type="text"
+                    type="time"
                     label="Event Time"
                   />
                 </Grid>
@@ -150,12 +171,32 @@ const AddEvent = () => {
                 </Grid>
                 {/* event image field */}
                 <Grid item xs={12}>
-                  <CustomTextField
+                  <Controller
                     name="image"
                     control={control}
-                    type="url"
-                    label="Event Image"
+                    render={({ field, fieldState: { error } }) => (
+                      <>
+                        <TextField
+                          {...field}
+                          fullWidth
+                          type="file"
+                          variant="outlined"
+                          label="Photo"
+                          error={!!error}
+                          helperText={error?.message}
+                          sx={{ marginBottom: "auto" }}
+                          onChange={handleImg}
+                        />
+                      </>
+                    )}
                   />
+                  {/* <CustomTextField
+                    name="image"
+                    control={control}
+                    type="file"
+                    label="Event Image"
+                    onchan
+                  /> */}
                 </Grid>
               </Grid>
 

@@ -28,3 +28,7 @@ package-lock.json
 
 # problem solving
 string.js
+stock.js
+sumZero.js
+box.js
+pyramid.js

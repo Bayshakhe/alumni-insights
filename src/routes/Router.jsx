@@ -15,6 +15,7 @@ import AllPaymentHistory from "../pages/DashboardPage/PaymentHistory/AllPaymentH
 import AdminDashboard from "../pages/DashboardPage/Dashboard/AdminDashboard";
 import Profile from "../pages/ProfilePage/Profile";
 import AdminPanel from "../pages/DashboardPage/AdminPanel";
+import EventsPagination from "../pages/UpcomingEvents/EventsPagination";
 
 const router = createBrowserRouter([
   {
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
       {
         path: "profile/:id",
         element: <Profile />,
+      },
+      {
+        path: "pagination",
+        element: <EventsPagination />,
       },
     ],
   },

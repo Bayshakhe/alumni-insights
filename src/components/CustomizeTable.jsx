@@ -194,7 +194,7 @@ const CustomizeTable = ({ allStudent, adminData, alumni }) => {
     <Box
       maxHeight="94vh"
       width="100%"
-      sx={{ padding: "20px", overflow: "scroll" }}
+      sx={{ padding: "20px", overflowX: "scroll" }}
     >
       {/* search field */}
       {!adminData && (

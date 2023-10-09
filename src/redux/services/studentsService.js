@@ -4,20 +4,24 @@ import { baseUrl } from "../../helper/baseUrl";
 export const studentsService = createApi({
   reducerPath: "studentsService",
   baseQuery: fetchBaseQuery({ baseUrl: baseUrl }),
+  tagTypes: ["studentsService"],
   endpoints: (builder) => ({
     // get all alumni students
     getAlumniStudents: builder.query({
       query: () => "/alumniStudents",
+      providesTags: ["studentsService"],
     }),
     // get all students
     getAllStudents: builder.query({
       query: () => "/allStudents",
+      providesTags: ["studentsService"],
     }),
     // get single student data
     getSingleStudent: builder.query({
       query: (id) => ({
         url: `/students/${id}`,
       }),
+      providesTags: ["studentsService"],
     }),
     // update students
     updateStudent: builder.mutation({

@@ -4,6 +4,7 @@ import { baseUrl } from "../../helper/baseUrl";
 export const eventService = createApi({
   reducerPath: "eventService",
   baseQuery: fetchBaseQuery({ baseUrl: baseUrl }),
+  tagTypes: ["eventService"],
   endpoints: (builder) => ({
     // get all upcoming events
     getUpcomingEvents: builder.query({
@@ -26,6 +27,7 @@ export const eventService = createApi({
         },
         body: postBody,
       }),
+      providesTags: ["eventService"],
     }),
     deleteEvent: builder.mutation({
       query: (id) => ({

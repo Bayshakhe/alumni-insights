@@ -16,6 +16,7 @@
     "@mui/icons-material": "^5.14.9",
     "@mui/material": "^5.14.10",
     "@mui/x-charts": "^6.0.0-alpha.13",
+    "@mui/x-date-pickers": "^6.16.0",
     "@reduxjs/toolkit": "^1.9.5",
     "@stripe/react-stripe-js": "^2.3.0",
     "@stripe/stripe-js": "^2.1.6",
@@ -42,5 +43,9 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
     "vite": "^4.4.5"
-  }
+  },
+    "engines": {
+      "node": "v10.8.0",
+      "npm":"v9.8.1"
+    }
 }

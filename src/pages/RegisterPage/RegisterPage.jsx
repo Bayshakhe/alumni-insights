@@ -148,7 +148,7 @@ const RegisterPage = () => {
               <CustomTextField
                 name="email"
                 control={control}
-                type="email"
+                type=""
                 label="Email"
               />
             </Grid>

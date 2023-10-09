@@ -3,7 +3,7 @@ import { baseUrl } from "../../helper/baseUrl";
 
 export const authServices = createApi({
   reducerPath: "authServices",
-  tagTypes: ["authServices"],
+  tagTypes: ["authServices", "studentsService"],
   baseQuery: fetchBaseQuery({ baseUrl: baseUrl }),
   endpoints: (builder) => ({
     // post student register info
@@ -16,7 +16,7 @@ export const authServices = createApi({
         },
         body: postBody,
       }),
-      invalidatesTags: ["authServices"],
+      invalidatesTags: ["authServices", "studentsService"],
     }),
     // find student for login info
     postLoginStudent: builder.mutation({
